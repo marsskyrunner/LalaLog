@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ListView
+
+        android:id="@+id/subject_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.mars_skyrunner.lalalog.SubjectListActivity"
+        tools:listitem="@layout/subject_list_item" />
+
+    <ImageView
+        android:id="@+id/empty_view"
+        android:src="@drawable/empty_record_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/subject_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</LinearLayout>

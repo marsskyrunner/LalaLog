@@ -1,0 +1,213 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mars_skyrunner.lalalog.RecordDetailFragment">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_margin_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_unique_id" />
+
+
+            <TextView
+                android:id="@+id/subject_unique_id"
+                style="@style/PrimaryText"
+                android:layout_gravity="center_vertical"
+                android:text="0000"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <!-- school unique id field -->
+            <AutoCompleteTextView
+                android:id="@+id/unique_id_auto"
+                android:visibility="visible"
+                android:maxLines="1"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:hint="@string/unique_id" />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/subject_name_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_margin_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_person" />
+
+            <TextView
+                android:id="@+id/subject_name"
+                style="@style/PrimaryText"
+                android:layout_gravity="center_vertical"
+                android:text="0000"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <EditText
+                android:id="@+id/name_edittext"
+                android:visibility="visible"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:hint="@string/name" />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:visibility="visible"
+        android:id="@+id/lastname1_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_margin_top">
+
+        <EditText
+            android:id="@+id/lastname1_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/no_icon_margin_left"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:hint="@string/lastname1" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:visibility="visible"
+        android:id="@+id/lastname2_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_margin_top">
+
+        <EditText
+            android:id="@+id/lastname2_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/no_icon_margin_left"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:hint="@string/lastname2" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_margin_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_group" />
+
+            <TextView
+                android:id="@+id/subject_group"
+                style="@style/PrimaryText"
+                android:layout_gravity="center_vertical"
+                android:text="A"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <Spinner
+                android:id="@+id/group_spinner"
+                android:layout_margin="@dimen/list_item_margin_top"
+                android:padding="@dimen/list_item_margin_top"
+                style="@style/GroupSpinner"></Spinner>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_margin_top">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_cake" />
+
+            <TextView
+                android:id="@+id/subject_birthdate"
+                style="@style/PrimaryText"
+                android:layout_gravity="center_vertical"
+                android:text="DD-MM-AAAA"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+
+            <Spinner
+                android:id="@+id/birthdate_month_spinner"
+                android:layout_margin="@dimen/list_item_margin_top"
+                android:padding="@dimen/list_item_margin_top"
+                style="@style/GroupSpinner"></Spinner>
+
+            <Spinner
+                android:id="@+id/birthdate_day_spinner"
+                android:layout_margin="@dimen/list_item_margin_top"
+                android:padding="@dimen/list_item_margin_top"
+                style="@style/GroupSpinner"></Spinner>
+
+
+            <Spinner
+                android:id="@+id/birthdate_year_spinner"
+                android:layout_margin="@dimen/list_item_margin_top"
+                android:padding="@dimen/list_item_margin_top"
+                style="@style/GroupSpinner"></Spinner>
+
+
+        </LinearLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

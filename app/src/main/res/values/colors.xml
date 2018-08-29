@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#862224</color>
+    <color name="colorPrimaryDark">#5d1819</color>
+    <color name="colorAccent">#228684</color>
+
+    <color name="colorPrimaryLight">#b67a7b</color>
+    <color name="colorPrimarySuperLight">#e6d2d3</color>
+
+    <color name="white">#FFFFFF</color>
+
+
+    <color name="group_a_avatar_color">#248622</color>
+    <color name="group_b_avatar_color">#222486</color>
+    <color name="group_c_avatar_color">#868422</color>
+
+
+
+</resources>

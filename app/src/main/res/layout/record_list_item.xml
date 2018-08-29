@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <android.support.v7.widget.CardView
+
+        android:id="@+id/main_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/cardview_margin_top">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:background="@drawable/cardview_background"
+                android:id="@+id/record_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="72dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/subject_group_imageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
+                        android:src="@drawable/subject_group_1" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/subject_info_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:padding="@dimen/list_item_margin_top"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/subject_name"
+                        style="@style/PrimaryText"
+                        android:layout_marginBottom="@dimen/list_item_margin_top"
+                        android:maxLines="1"
+                        android:text="Kimi Nikon"
+                        android:textAppearance="?attr/textAppearanceListItem" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/record_date"
+                            style="@style/SecondaryText"
+                            android:layout_alignParentLeft="true"
+                            android:alpha="0.5"
+                            android:text="00/00/0000"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+
+                        <TextView
+                            android:id="@+id/record_time"
+                            style="@style/SecondaryText"
+                            android:layout_alignParentRight="true"
+                            android:alpha="0.5"
+                            android:text="00:00 hrs"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/delete_button_background">
+
+                <ImageButton
+                    android:id="@+id/delete_imagebtn"
+                    android:layout_width="72dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_delete_white_24dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
