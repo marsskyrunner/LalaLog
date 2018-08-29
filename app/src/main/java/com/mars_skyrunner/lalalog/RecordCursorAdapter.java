@@ -303,8 +303,8 @@ public class RecordCursorAdapter extends CursorAdapter {
     private void goScene1(CardView cardView , ImageButton deleteButton) {
 
 
-        Log.v(LOG_TAG,"cambio");
-        
+        Log.v(LOG_TAG,"cambio 2");
+
         if (Build.VERSION.SDK_INT >= 19) {
 
             Log.v(LOG_TAG,"goScene1: Build.VERSION.SDK_INT >= 19");
