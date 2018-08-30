@@ -59,4 +59,5 @@
     <string name="delete_record_dialog_msg">¿Esta seguro que desea borrar el registro?</string>
     <string name="accept">aceptar</string>
     <string name="cancel">cancelar</string>
+    <string name="delete_record">Borrar registro</string>
 </resources>

@@ -6,5 +6,11 @@
         android:title="@string/history"
         app:showAsAction="collapseActionView" />
 
+    <item android:id="@+id/delete_record"
+
+
+        android:title="@string/delete_record"
+        app:showAsAction="collapseActionView" />
+
 
 </menu>

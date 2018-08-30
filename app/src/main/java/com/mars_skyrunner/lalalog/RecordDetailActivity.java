@@ -2,8 +2,10 @@ package com.mars_skyrunner.lalalog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import com.mars_skyrunner.lalalog.data.RecordContract;
+
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateDaySpinner;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateMonthSpinner;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateYearSpinner;
@@ -27,8 +32,6 @@ import static com.mars_skyrunner.lalalog.RecordDetailFragment.mRecordEditText;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mNameEditText;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mLastName1EditText;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mLastName2EditText;
-
-
 
 
 /**
@@ -43,7 +46,7 @@ public class RecordDetailActivity extends AppCompatActivity {
     private String LOG_TAG = RecordDetailActivity.class.getSimpleName();
 
     // recordUri received from RecordListActivitys' intent
-    String recordUriStr ;
+    String recordUriStr;
 
 
     @Override
@@ -62,7 +65,7 @@ public class RecordDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_detail);
 
-        Log.w(LOG_TAG,"onCreate");
+        Log.w(LOG_TAG, "onCreate");
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
@@ -97,17 +100,16 @@ public class RecordDetailActivity extends AppCompatActivity {
         });
 
         recordUriStr = args.getString(Constants.ARG_ITEM_ID);
-        Log.w(LOG_TAG,"recordUriStr: " + recordUriStr);
+        Log.w(LOG_TAG, "recordUriStr: " + recordUriStr);
 
-        if(!recordUriStr.equals("null")){//Existing Record selected
+        if (!recordUriStr.equals("null")) {//Existing Record selected
             editionFab.setVisibility(View.VISIBLE);
             okFab.setVisibility(View.GONE);
-        }else{//New Record option selected
+        } else {//New Record option selected
             invalidateOptionsMenu();
             editionFab.setVisibility(View.GONE);
             okFab.setVisibility(View.VISIBLE);
         }
-
 
 
         // Show the Up button in the action bar.
@@ -140,7 +142,7 @@ public class RecordDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if(navigateUp()){
+        if (navigateUp()) {
             super.onBackPressed();
         }
 
@@ -150,17 +152,26 @@ public class RecordDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case android.R.id.home:
 
                 navigateUp();
 
                 return true;
 
+
             case R.id.record_history:
-                Intent intent = new Intent(this,RecordHistoryActivity.class);
-                intent.putExtra(Constants.RECORD_URI,recordUriStr);
+                Intent intent = new Intent(this, RecordHistoryActivity.class);
+                intent.putExtra(Constants.RECORD_URI, recordUriStr);
                 startActivity(intent);
+                break;
+
+
+            case R.id.delete_record:
+
+                showDeleteConfirmation();
+
+
                 break;
 
 
@@ -168,12 +179,75 @@ public class RecordDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showDeleteConfirmation() {
+
+
+        Log.v(LOG_TAG, "");
+
+        // Create a click listener to handle the user confirming that
+        // record should be deleted
+
+        Log.v(LOG_TAG, "currentRecordUri: " + recordUriStr.toString());
+
+        DialogInterface.OnClickListener deleteButtonListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User clicked "accept" button, navigate to parent activity.
+
+                        Log.v(LOG_TAG, "deleteButtonListener");
+
+                        //Kicks off RecordDeleteService
+                        Intent deleteRecordIntent = new Intent(RecordDetailActivity.this, RecordDeleteService.class);
+                        deleteRecordIntent.putExtra(Constants.DELETE_SERVICE_EXTRA, recordUriStr.toString());
+                        startService(deleteRecordIntent);
+
+                        Intent recordListIntent =  new Intent(RecordDetailActivity.this, RecordListActivity.class);
+                        NavUtils.navigateUpTo(RecordDetailActivity.this,recordListIntent);
+
+
+
+                    }
+                };
+
+        // Show a dialog that confirms user decision to delete record
+        showDeleteConfirmDialog(deleteButtonListener);
+
+    }
+
+    private void showDeleteConfirmDialog(DialogInterface.OnClickListener deleteButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RecordDetailActivity.this);
+        builder.setMessage(R.string.delete_record_dialog_msg);
+        builder.setPositiveButton(R.string.accept, deleteButtonClickListener);
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the pet.
+
+                Log.v(LOG_TAG, "setNegativeButton");
+
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+
     private boolean navigateUp() {
 
         // If the record hasn't changed, continue with navigating up to parent activity
         // which is the {@link CatalogActivity}.
         if (!checkEditionStatus()) {
-           NavUtils.navigateUpTo(this, new Intent(this, RecordListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, RecordListActivity.class));
             return true;
         }
 
@@ -187,28 +261,28 @@ public class RecordDetailActivity extends AppCompatActivity {
     private boolean checkEditionStatus() {
 
         String uniqueID = mUniqueIDAutoComplete.getText().toString();
-        String name  = mNameEditText.getText().toString();
-        String lastname1  = mLastName1EditText.getText().toString();
-        String lastname2  = mLastName2EditText.getText().toString();
-        String groupID  = getGroupID(mGroupSpinner.getSelectedItem().toString());
-        String birthdateDay  = mBirthdateDaySpinner.getSelectedItem().toString();
-        String birthdateMonth  = mBirthdateMonthSpinner.getSelectedItem().toString();
-        String birthdateYear  = mBirthdateYearSpinner.getSelectedItem().toString();
+        String name = mNameEditText.getText().toString();
+        String lastname1 = mLastName1EditText.getText().toString();
+        String lastname2 = mLastName2EditText.getText().toString();
+        String groupID = getGroupID(mGroupSpinner.getSelectedItem().toString());
+        String birthdateDay = mBirthdateDaySpinner.getSelectedItem().toString();
+        String birthdateMonth = mBirthdateMonthSpinner.getSelectedItem().toString();
+        String birthdateYear = mBirthdateYearSpinner.getSelectedItem().toString();
         String birthdate = birthdateDay + " / " + birthdateMonth + " / " + birthdateYear;
         String recordText = mRecordEditText.getText().toString();
 
-        Log.v(LOG_TAG,"checkEditionStatus()");
+        Log.v(LOG_TAG, "checkEditionStatus()");
 
-        Log.v(LOG_TAG,"groupID: " + groupID);
-        Log.v(LOG_TAG,"birthdate: " + birthdate);
+        Log.v(LOG_TAG, "groupID: " + groupID);
+        Log.v(LOG_TAG, "birthdate: " + birthdate);
 
-        Log.v(LOG_TAG,"TextUtils.isEmpty(uniqueID): " + TextUtils.isEmpty(uniqueID));
-        Log.v(LOG_TAG,"TextUtils.isEmpty(name): " + TextUtils.isEmpty(name));
-        Log.v(LOG_TAG,"TextUtils.isEmpty(lastname1): " + TextUtils.isEmpty(lastname1));
-        Log.v(LOG_TAG,"TextUtils.isEmpty(lastname2): " + TextUtils.isEmpty(lastname2));
-        Log.v(LOG_TAG,"TextUtils.isEmpty(recordText): " + TextUtils.isEmpty(recordText));
-        Log.v(LOG_TAG,"groupID.equals(0): " + groupID.equals("0"));
-        Log.v(LOG_TAG,"birthdate.equals(\"1 / Enero / 2000\"): " + (birthdate.equals("1 / Enero / 2000")));
+        Log.v(LOG_TAG, "TextUtils.isEmpty(uniqueID): " + TextUtils.isEmpty(uniqueID));
+        Log.v(LOG_TAG, "TextUtils.isEmpty(name): " + TextUtils.isEmpty(name));
+        Log.v(LOG_TAG, "TextUtils.isEmpty(lastname1): " + TextUtils.isEmpty(lastname1));
+        Log.v(LOG_TAG, "TextUtils.isEmpty(lastname2): " + TextUtils.isEmpty(lastname2));
+        Log.v(LOG_TAG, "TextUtils.isEmpty(recordText): " + TextUtils.isEmpty(recordText));
+        Log.v(LOG_TAG, "groupID.equals(0): " + groupID.equals("0"));
+        Log.v(LOG_TAG, "birthdate.equals(\"1 / Enero / 2000\"): " + (birthdate.equals("1 / Enero / 2000")));
 
 
         if (TextUtils.isEmpty(uniqueID)
@@ -222,11 +296,11 @@ public class RecordDetailActivity extends AppCompatActivity {
             // No need to create ContentValues and no need to do any ContentProvider operations.
 
 
-            Log.v(LOG_TAG,"return false");
+            Log.v(LOG_TAG, "return false");
             return false;
 
-        }else{
-            Log.v(LOG_TAG,"return true");
+        } else {
+            Log.v(LOG_TAG, "return true");
             return true;
         }
 
@@ -237,7 +311,7 @@ public class RecordDetailActivity extends AppCompatActivity {
         String groupID = "0";
 
 
-        Log.v(LOG_TAG,"getGroupID: groupString: " + groupString);
+        Log.v(LOG_TAG, "getGroupID: groupString: " + groupString);
 
 
         switch (groupString) {
@@ -256,7 +330,7 @@ public class RecordDetailActivity extends AppCompatActivity {
         }
 
 
-        Log.v(LOG_TAG,"getGroupID: groupID: " + groupID);
+        Log.v(LOG_TAG, "getGroupID: groupID: " + groupID);
 
 
         return groupID;

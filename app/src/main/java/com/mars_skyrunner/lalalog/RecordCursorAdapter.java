@@ -303,8 +303,6 @@ public class RecordCursorAdapter extends CursorAdapter {
     private void goScene1(CardView cardView , ImageButton deleteButton) {
 
 
-        Log.v(LOG_TAG,"cambio 2");
-
         if (Build.VERSION.SDK_INT >= 19) {
 
             Log.v(LOG_TAG,"goScene1: Build.VERSION.SDK_INT >= 19");
@@ -332,31 +330,31 @@ public class RecordCursorAdapter extends CursorAdapter {
 
     }
 
-    private void showDeleteConfirmDialog(
+        private void showDeleteConfirmDialog(
 
-            DialogInterface.OnClickListener deleteButtonClickListener) {
-        // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the positive and negative buttons on the dialog.
+                DialogInterface.OnClickListener deleteButtonClickListener) {
+            // Create an AlertDialog.Builder and set the message, and click listeners
+            // for the positive and negative buttons on the dialog.
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage(R.string.delete_record_dialog_msg);
-        builder.setPositiveButton(R.string.accept, deleteButtonClickListener);
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage(R.string.delete_record_dialog_msg);
+            builder.setPositiveButton(R.string.accept, deleteButtonClickListener);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked the "Keep editing" button, so dismiss the dialog
+                    // and continue editing the pet.
 
-                Log.v(LOG_TAG,"setNegativeButton");
+                    Log.v(LOG_TAG,"setNegativeButton");
 
-                if (dialog != null) {
-                    dialog.dismiss();
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
                 }
-            }
-        });
+            });
 
-        // Create and show the AlertDialog
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+            // Create and show the AlertDialog
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+
     }
-
-}
