@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +18,9 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mars_skyrunner.lalalog.data.RecordContract;
 import com.mars_skyrunner.lalalog.data.SubjectContract;
@@ -82,9 +87,47 @@ public class SubjectCursorAdapter extends CursorAdapter {
         // Find fields to populate in inflated template
         TextView mSubjectNameTextView = (TextView) view.findViewById(R.id.subject_name);
         ImageView mGroupImageView = (ImageView) view.findViewById(R.id.subject_group_imageview);
+        final ImageButton mDeleteButton = (ImageButton) view.findViewById(R.id.delete_imagebtn);
+        LinearLayout textLayout = view.findViewById(R.id.subject_info_layout);
         TextView mSubjectIdTextView = (TextView) view.findViewById(R.id.subject_unique_id);
         ImageButton mEditButton = (ImageButton) view.findViewById(R.id.edit_button);
-        CardView mainLayout = (CardView) view.findViewById(R.id.main_cardview);
+
+        //TODO: check this
+        mGroupImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+
+                Log.v(LOG_TAG, "SDK_INT: " + Build.VERSION.SDK_INT);
+
+                if (Build.VERSION.SDK_INT >= 26) {
+
+                    vibrator.vibrate(( VibrationEffect.createOneShot(120,VibrationEffect.DEFAULT_AMPLITUDE) ));
+
+                }else{
+
+                    if (vibrator.hasVibrator()) {
+                        vibrator.vibrate(120);
+                    }
+
+                }
+
+//                if(mDeleteButton.getVisibility() == View.GONE){
+//                    goScene2(cardView, mDeleteButton);
+//                }else{
+//                    goScene1(cardView, mDeleteButton);
+//                }
+
+                return false;
+            }
+        });
+
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext,"mDeleteButton",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Gets Column index of the name and breed of the record
         int nameColumnIndex = cursor.getColumnIndex(COLUMN_SUBJECT_NAME);
@@ -133,8 +176,6 @@ public class SubjectCursorAdapter extends CursorAdapter {
         final String subjectUriStr = currentSubjectUri.toString();
         Log.v(LOG_TAG, "subjectUriStr: " + subjectUriStr);
 
-         mEditButton = (ImageButton) view.findViewById(R.id.edit_button);
-
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,11 +196,11 @@ public class SubjectCursorAdapter extends CursorAdapter {
 
 
 
-        mainLayout.setOnClickListener(new View.OnClickListener() {
+        textLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Log.v(LOG_TAG, "mainLayout.setOnClickListener");
+                Log.v(LOG_TAG, "infoLayout.setOnClickListener");
 
                 Bundle arguments = new Bundle();
                 arguments.putString(Constants.ARG_ITEM_ID, subjectUriStr);//This sets SubjectDetailActivitys ReviewMode

@@ -321,14 +321,7 @@ public class RecordCursorAdapter extends CursorAdapter {
 
     }
 
-    /**
-     * Perform the deletion of the Record in the database.
-     */
-    private void deleteRecord() {
 
-
-
-    }
 
         private void showDeleteConfirmDialog(
 
