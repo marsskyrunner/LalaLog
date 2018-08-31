@@ -90,37 +90,9 @@ public class SubjectCursorAdapter extends CursorAdapter {
         final ImageButton mDeleteButton = (ImageButton) view.findViewById(R.id.delete_imagebtn);
         LinearLayout textLayout = view.findViewById(R.id.subject_info_layout);
         TextView mSubjectIdTextView = (TextView) view.findViewById(R.id.subject_unique_id);
-        ImageButton mEditButton = (ImageButton) view.findViewById(R.id.edit_button);
+        final ImageButton mEditButton = (ImageButton) view.findViewById(R.id.edit_button);
 
-        //TODO: check this
-        mGroupImageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
 
-                Log.v(LOG_TAG, "SDK_INT: " + Build.VERSION.SDK_INT);
-
-                if (Build.VERSION.SDK_INT >= 26) {
-
-                    vibrator.vibrate(( VibrationEffect.createOneShot(120,VibrationEffect.DEFAULT_AMPLITUDE) ));
-
-                }else{
-
-                    if (vibrator.hasVibrator()) {
-                        vibrator.vibrate(120);
-                    }
-
-                }
-
-//                if(mDeleteButton.getVisibility() == View.GONE){
-//                    goScene2(cardView, mDeleteButton);
-//                }else{
-//                    goScene1(cardView, mDeleteButton);
-//                }
-
-                return false;
-            }
-        });
 
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
