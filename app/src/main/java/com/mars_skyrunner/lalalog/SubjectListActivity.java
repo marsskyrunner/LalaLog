@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -149,7 +151,7 @@ public class SubjectListActivity extends AppCompatActivity  implements
             Toast.makeText(SubjectListActivity.this,result,Toast.LENGTH_SHORT).show();
 
             // Kick off the record loader
-            getLoaderManager().initLoader(Constants.SUBJECT_LOADER, null, SubjectListActivity.this);
+            getLoaderManager().restartLoader(Constants.SUBJECT_LOADER, null, SubjectListActivity.this);
 
         }
 
@@ -221,7 +223,6 @@ public class SubjectListActivity extends AppCompatActivity  implements
                         String uniqueId = cursor.getString(uniqueIdColumnIndex);
                         String sId = cursor.getString(idColumnIndex);
 
-
                         Subject subject = new Subject(sId, name, lastname1, lastname2, birthdate, groupid);
                         subject.setSubjectUniqueID(Integer.parseInt(uniqueId.trim()));
 
@@ -240,6 +241,16 @@ public class SubjectListActivity extends AppCompatActivity  implements
                 // Setup an Adapter to create a list item for each row of subject data in the Cursor.
                 // There is no subject data yet (until the loader finishes) so pass in null for the Cursor.
                 mSubjectAdapter = new SubjectAdapter(this,  subjects);
+
+                if (Build.VERSION.SDK_INT >= 19) {
+
+                    Log.v(LOG_TAG,"subjectListView Transition: Build.VERSION.SDK_INT >= 19");
+
+                    TransitionManager.beginDelayedTransition(subjectListView);
+
+                }else{
+                    Log.v(LOG_TAG,"subjectListView Transition: Build.VERSION.SDK_INT < 19");
+                }
 
 
                 subjectListView.setAdapter(mSubjectAdapter);

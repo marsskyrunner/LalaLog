@@ -134,6 +134,7 @@ public class RecordListActivity extends AppCompatActivity implements
         progressBar = (LinearLayout) findViewById(R.id.progress_bar);
         recordListView = (ListView) findViewById(R.id.record_list);
 
+
         showLoaderViews();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -183,9 +184,17 @@ public class RecordListActivity extends AppCompatActivity implements
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
         mRecordCursorAdapter = new RecordCursorAdapter(this, null);
 
+        if (Build.VERSION.SDK_INT >= 19) {
+
+            Log.v(LOG_TAG,"recordListView Transition: Build.VERSION.SDK_INT >= 19");
+
+            android.transition.TransitionManager.beginDelayedTransition(recordListView);
+
+        }else{
+            Log.v(LOG_TAG,"ecordListView Transition: Build.VERSION.SDK_INT < 19");
+        }
+
         recordListView.setAdapter(mRecordCursorAdapter);
-
-
 
         // Kick off the record loader
         getLoaderManager().initLoader(Constants.SUBJECT_LOADER, null, this);
