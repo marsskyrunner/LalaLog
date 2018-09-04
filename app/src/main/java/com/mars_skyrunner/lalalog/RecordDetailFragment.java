@@ -672,6 +672,7 @@ public class RecordDetailFragment extends Fragment {
             if(subjectSelected == null){//New Record has been saved
 
                 Log.v(LOG_TAG,"New Record has been saved");
+
                 uniqueID = mUniqueIDAutoComplete.getText().toString();
                 name = mNameEditText.getText().toString();
                 lastname1 = mLastName1EditText.getText().toString();
@@ -680,9 +681,17 @@ public class RecordDetailFragment extends Fragment {
                 birthdateDay = mBirthdateDaySpinner.getSelectedItem().toString();
                 birthdateMonth = mBirthdateMonthSpinner.getSelectedItem().toString();
                 birthdateYear = mBirthdateYearSpinner.getSelectedItem().toString();
+
+                //TODO: check if any edit text is empty before saving record
+
                 birthdate = birthdateDay + " / " + birthdateMonth + " / " + birthdateYear;
-                subjectID = getSubjectID(uniqueID, name, lastname1, lastname2, groupID, birthdate);
-                recordReference = subjectID;
+
+                if(!TextUtils.isEmpty(uniqueID)){
+
+                    subjectID = getSubjectID(uniqueID, name, lastname1, lastname2, groupID, birthdate);
+                    recordReference = subjectID;
+                }
+
 
             }else{ //Record review/edition has been selected
 
@@ -722,11 +731,29 @@ public class RecordDetailFragment extends Fragment {
             // Check if this is supposed to be a new record
             // and check if all the fields in the editor are blank
 
-            if (TextUtils.isEmpty(uniqueID) && TextUtils.isEmpty(name) &&
-                    TextUtils.isEmpty(lastname1) && TextUtils.isEmpty(lastname2) && TextUtils.isEmpty(recordText) &&
-                    groupID.equals("0") && birthdate == "1 / Enero / 2000") {
+
+            Log.v(LOG_TAG, "TextUtils.isEmpty(uniqueID): " + TextUtils.isEmpty(uniqueID));
+            Log.v(LOG_TAG, "TextUtils.isEmpty(name): " + TextUtils.isEmpty(name));
+            Log.v(LOG_TAG, "TextUtils.isEmpty(lastname1): " + TextUtils.isEmpty(lastname1));
+            Log.v(LOG_TAG, "TextUtils.isEmpty(lastname2): " + TextUtils.isEmpty(lastname2));
+            Log.v(LOG_TAG, "TextUtils.isEmpty(recordText): " + TextUtils.isEmpty(recordText));
+            Log.v(LOG_TAG, "groupID: " + groupID);
+            Log.v(LOG_TAG, "birthdate: " + birthdate);
+
+
+            if (TextUtils.isEmpty(uniqueID)
+                    && TextUtils.isEmpty(name)
+                    && TextUtils.isEmpty(lastname1)
+                    && TextUtils.isEmpty(lastname2)
+                    && TextUtils.isEmpty(recordText)
+                    && groupID.equals("0")
+                    && birthdate.equals("1 / Enero / 2000")) {
                 // Since no fields were modified, we can return early without creating a new pet.
                 // No need to create ContentValues and no need to do any ContentProvider operations.
+
+                Log.v(LOG_TAG,"saveReceiver :no fields were modified");
+                Toast.makeText(getActivity(),getString(R.string.no_changes_made),Toast.LENGTH_SHORT).show();
+                getActivity().finish();
 
                 return;
             }

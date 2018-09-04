@@ -93,7 +93,6 @@ public class SubjectCursorAdapter extends CursorAdapter {
         final ImageButton mEditButton = (ImageButton) view.findViewById(R.id.edit_button);
 
 
-
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

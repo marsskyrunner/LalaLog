@@ -1,8 +1,10 @@
 package com.mars_skyrunner.lalalog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -138,10 +140,25 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
 
                 Log.v(LOG_TAG,"deleteButtonListener");
 
-                //Kicks off SubjectDeleteService
-                Intent deleteSubjectIntent = new Intent(mContext, SubjectDeleteService.class);
-                deleteSubjectIntent.putExtra(Constants.DELETE_SERVICE_EXTRA, subjectUriStr);
-                mContext.startService(deleteSubjectIntent);
+                DialogInterface.OnClickListener deleteButtonListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User clicked "accept" button, navigate to parent activity.
+
+                                Log.v(LOG_TAG,"deleteButtonListener");
+
+
+                                //Kicks off SubjectDeleteService
+                                Intent deleteSubjectIntent = new Intent(mContext, SubjectDeleteService.class);
+                                deleteSubjectIntent.putExtra(Constants.DELETE_SERVICE_EXTRA, subjectUriStr);
+                                mContext.startService(deleteSubjectIntent);;
+
+                            }
+                        };
+
+                // Show a dialog that confirms user decision to delete record
+                showDeleteConfirmDialog(deleteButtonListener);
 
             }
         });
@@ -231,6 +248,37 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
         deleteButton.setVisibility(View.GONE);
         editButton.setVisibility(View.VISIBLE);
 
+    }
+
+
+    private void showDeleteConfirmDialog(
+
+            DialogInterface.OnClickListener deleteButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage(R.string.delete_subject_dialog_msg);
+        builder.setPositiveButton(R.string.accept, deleteButtonClickListener);
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                Log.v(LOG_TAG,"setNegativeButton");
+
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+
+        Log.v(LOG_TAG,"builder.create()");
+
+        alertDialog.show();
+
+        Log.v(LOG_TAG,"alertDialog.show()");
     }
 
 

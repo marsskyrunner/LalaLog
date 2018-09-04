@@ -241,18 +241,6 @@ public class SubjectListActivity extends AppCompatActivity  implements
                 // Setup an Adapter to create a list item for each row of subject data in the Cursor.
                 // There is no subject data yet (until the loader finishes) so pass in null for the Cursor.
                 mSubjectAdapter = new SubjectAdapter(this,  subjects);
-
-                if (Build.VERSION.SDK_INT >= 19) {
-
-                    Log.v(LOG_TAG,"subjectListView Transition: Build.VERSION.SDK_INT >= 19");
-
-                    TransitionManager.beginDelayedTransition(subjectListView);
-
-                }else{
-                    Log.v(LOG_TAG,"subjectListView Transition: Build.VERSION.SDK_INT < 19");
-                }
-
-
                 subjectListView.setAdapter(mSubjectAdapter);
 
         }
