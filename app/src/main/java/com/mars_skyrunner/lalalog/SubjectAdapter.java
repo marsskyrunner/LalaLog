@@ -93,6 +93,14 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
         final LinearLayout container = (LinearLayout) listItemView.findViewById(R.id.container);
 
 
+        //Populate fields
+        String displayName = currentSubject.getSubjectName() + " " + currentSubject.getSubjectLastName1() + " " + currentSubject.getSubjectLastName2();
+
+        Uri currentSubjectUri = ContentUris.withAppendedId(SubjectContract.SubjectEntry.CONTENT_URI, Long.parseLong(currentSubject.getSubjectID().trim()));
+        final String subjectUriStr = currentSubjectUri.toString();
+        Log.v(LOG_TAG, "subjectUriStr: " + subjectUriStr);
+
+
         mGroupImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -127,17 +135,16 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"mDeleteButton",Toast.LENGTH_SHORT).show();
+
+                Log.v(LOG_TAG,"deleteButtonListener");
+
+                //Kicks off SubjectDeleteService
+                Intent deleteSubjectIntent = new Intent(mContext, SubjectDeleteService.class);
+                deleteSubjectIntent.putExtra(Constants.DELETE_SERVICE_EXTRA, subjectUriStr);
+                mContext.startService(deleteSubjectIntent);
+
             }
         });
-
-
-        //Populate fields
-        String displayName = currentSubject.getSubjectName() + " " + currentSubject.getSubjectLastName1() + " " + currentSubject.getSubjectLastName2();
-
-        Uri currentSubjectUri = ContentUris.withAppendedId(SubjectContract.SubjectEntry.CONTENT_URI, Long.parseLong(currentSubject.getSubjectID().trim()));
-        final String subjectUriStr = currentSubjectUri.toString();
-        Log.v(LOG_TAG, "subjectUriStr: " + subjectUriStr);
 
         mSubjectNameTextView.setText(displayName);
         mGroupImageView.setImageResource(currentSubject.getGroupResourceID());

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import static com.mars_skyrunner.lalalog.SubjectDetailFragment.mUniqueIDAutoComplete;
 import static com.mars_skyrunner.lalalog.SubjectDetailFragment.mNameEditText;
@@ -26,7 +27,7 @@ import static com.mars_skyrunner.lalalog.SubjectDetailFragment.mGroupSpinner;
 public class SubjectDetailActivity extends AppCompatActivity {
 
     private String LOG_TAG =  SubjectDetailActivity.class.getSimpleName();
-    public static MenuItem addSubjectMenuItem;
+    public static MenuItem addSubjectMenuItem,deleteSubjectMenuItem;
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -34,12 +35,20 @@ public class SubjectDetailActivity extends AppCompatActivity {
         Bundle subjectBundle = getIntent().getBundleExtra(Constants.SUBJECT_BUNDLE);
         String subjectUriStr = subjectBundle.getString(Constants.ARG_ITEM_ID);
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.subject_detail_activity_menu, menu);
+        addSubjectMenuItem = menu.findItem(R.id.add_subject_icon);
+        deleteSubjectMenuItem = menu.findItem(R.id.delete_subject);
+
         if(subjectUriStr.equals("null")){
 
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.subject_detail_activity_menu, menu);
-            addSubjectMenuItem = menu.findItem(R.id.add_subject_icon);
+            setTitle(getString(R.string.title_new_subject));
+            addSubjectMenuItem.setVisible(true);
+            deleteSubjectMenuItem.setVisible(false);
 
+        }else{
+            addSubjectMenuItem.setVisible(false);
+            deleteSubjectMenuItem.setVisible(true);
         }
 
 
@@ -58,12 +67,14 @@ public class SubjectDetailActivity extends AppCompatActivity {
 
                 return true;
 
-
-
-
             case R.id.add_subject_icon:
                 Intent intent = new Intent(Constants.SAVE_SUBJECT);
                 sendBroadcast(intent);
+                break;
+
+            case R.id.delete_subject:
+
+                Toast.makeText(this,"delete_subject",Toast.LENGTH_SHORT).show();
                 break;
 
         }

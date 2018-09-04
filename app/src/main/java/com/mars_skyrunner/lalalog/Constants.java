@@ -6,9 +6,11 @@ import java.util.Map;
 public class Constants {
 
 
+
     //Save fab button read broadcast receiver
     private static String packageName =  "com.mars_skyrunner.lalalog";
     public static final String RESULT = packageName + ".RESULT";
+    public static final String DELETE_SUBJECT_SERVICE_RESULT = packageName + ".DELETE_SUBJECT_SERVICE_RESULT" ;
     public static final String SAVE_RECORD = "com.mars_skyrunner.lalalog.SAVE_RECORD";
     public static final int RECORD_LOADER = 100;
     public static final int SUBJECT_LOADER = 200;
