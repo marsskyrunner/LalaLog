@@ -754,6 +754,7 @@ public class RecordDetailFragment extends Fragment {
 
                     hideEditionMode();
                     mRecordEditText.getText().clear();
+
                     ((TextView) rootView.findViewById(R.id.record_detail)).setText(recordText);
 
                 }
@@ -805,6 +806,7 @@ public class RecordDetailFragment extends Fragment {
 
                     if(recordEditionFlag ){
 
+                        mRecordEditText.getText().clear();
                         hideEditionMode();
 
                         ((TextView) rootView.findViewById(R.id.record_detail)).setText(recordText);
@@ -855,6 +857,7 @@ public class RecordDetailFragment extends Fragment {
 
 
     };
+
 
     private void updateRecordReference(Uri newUri) {
 
