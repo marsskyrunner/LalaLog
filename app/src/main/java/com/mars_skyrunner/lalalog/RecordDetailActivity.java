@@ -120,7 +120,10 @@ public class RecordDetailActivity extends AppCompatActivity {
         recordUriStr = args.getString(Constants.ARG_ITEM_ID);
         Log.w(LOG_TAG, "recordUriStr: " + recordUriStr);
 
+
         if (!recordUriStr.equals("null")) {//Existing Record selected
+
+
             editionFab.setVisibility(View.VISIBLE);
             okFab.setVisibility(View.GONE);
         } else {//New Record option selected

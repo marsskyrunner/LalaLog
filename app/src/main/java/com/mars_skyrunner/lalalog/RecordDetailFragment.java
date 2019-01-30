@@ -96,6 +96,7 @@ public class RecordDetailFragment extends Fragment {
 
     CardView mLastName1CardView;
     CardView mLastName2CardView;
+    String  prevRecordText;
 
     //Readable elements
     TextView mNameTextView;
@@ -142,11 +143,14 @@ public class RecordDetailFragment extends Fragment {
             recordUri = Uri.parse(recordUriStr);
             String recordIDStr = String.valueOf(ContentUris.parseId(recordUri));
 
-            Log.w(LOG_TAG,"recordIDStr: " + recordIDStr);
+            Log.v(LOG_TAG,"recordIDStr: " + recordIDStr);
 
             mItem = Constants.RECORD_MAP.get(recordIDStr);
 
-            Log.w(LOG_TAG,"mItem.getTime(): " + mItem.getTime());
+            Log.v(LOG_TAG,"mItem.getTime(): " + mItem.getTime());
+
+            prevRecordText = mItem.getRecordText();
+            Log.v(LOG_TAG,"prevRecordText: " + prevRecordText);
 
             if (appBarLayout != null) {
 
@@ -729,8 +733,8 @@ public class RecordDetailFragment extends Fragment {
                     && TextUtils.isEmpty(lastname2)
                     && TextUtils.isEmpty(recordText)
                     && groupID.equals("0")
-                    && birthdate.equals("1 / Enero / 2000")) {
-                // Since no fields were modified, we can return early without creating a new pet.
+                    && birthdate.equals("1 / Enero / " + (currentYear - 18))) {
+                // Since no fields were modified, we can return early without creating a new record.
                 // No need to create ContentValues and no need to do any ContentProvider operations.
 
                 Log.v(LOG_TAG,"saveReceiver :no fields were modified");
