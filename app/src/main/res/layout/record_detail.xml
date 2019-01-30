@@ -152,10 +152,10 @@
                 android:text="A"
                 android:textAppearance="?attr/textAppearanceListItem" />
 
+
             <Spinner
                 android:id="@+id/group_spinner"
                 android:layout_margin="@dimen/list_item_margin_top"
-                android:padding="@dimen/list_item_margin_top"
                 style="@style/GroupSpinner"></Spinner>
 
 
@@ -189,24 +189,44 @@
                 android:textAppearance="?attr/textAppearanceListItem" />
 
 
-            <Spinner
-                android:id="@+id/birthdate_month_spinner"
-                android:layout_margin="@dimen/list_item_margin_top"
-                android:padding="@dimen/list_item_margin_top"
-                style="@style/GroupSpinner"></Spinner>
 
-            <Spinner
-                android:id="@+id/birthdate_day_spinner"
-                android:layout_margin="@dimen/list_item_margin_top"
-                android:padding="@dimen/list_item_margin_top"
-                style="@style/GroupSpinner"></Spinner>
+            <LinearLayout
+                android:id="@+id/birthdate_spinner_layout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:id="@+id/birthdate_month_spinner"
+                    android:layout_margin="@dimen/list_item_margin_top"
+
+                    style="@style/GroupSpinner"></Spinner>
 
 
-            <Spinner
-                android:id="@+id/birthdate_year_spinner"
-                android:layout_margin="@dimen/list_item_margin_top"
-                android:padding="@dimen/list_item_margin_top"
-                style="@style/GroupSpinner"></Spinner>
+                <Spinner
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:id="@+id/birthdate_day_spinner"
+                    android:layout_marginTop="@dimen/list_item_margin_top"
+                    android:layout_marginBottom="@dimen/list_item_margin_top"
+
+                    style="@style/GroupSpinner"></Spinner>
+
+
+                <Spinner
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:id="@+id/birthdate_year_spinner"
+                    android:layout_margin="@dimen/list_item_margin_top"
+
+                    style="@style/GroupSpinner"></Spinner>
+
+
+            </LinearLayout>
+
+
 
 
         </LinearLayout>
