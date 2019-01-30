@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,9 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.mars_skyrunner.lalalog.data.RecordContract;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateDaySpinner;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateMonthSpinner;
@@ -47,6 +51,9 @@ public class RecordDetailActivity extends AppCompatActivity {
 
     // recordUri received from RecordListActivitys' intent
     String recordUriStr;
+
+    //Current Date variables
+    public static int currentYear,currentMonth,currentDay;
 
 
     @Override
@@ -75,6 +82,8 @@ public class RecordDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record_detail);
 
         Log.w(LOG_TAG, "onCreate");
+
+        updateDate();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
@@ -145,6 +154,24 @@ public class RecordDetailActivity extends AppCompatActivity {
                     .add(R.id.record_detail_container, fragment)
                     .commit();
         }
+    }
+
+
+    private void updateDate() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String day = (String) DateFormat.format("dd", currentTime);
+        String monthNumber = (String) DateFormat.format("MM", currentTime);
+        String year = (String) DateFormat.format("yyyy", currentTime);
+
+        currentYear = Integer.parseInt(year.trim());
+        currentMonth = Integer.parseInt(monthNumber.trim());
+        currentDay = Integer.parseInt(day.trim());
+
+        Log.v(LOG_TAG, "currenYear: " + currentYear);
+        Log.v(LOG_TAG, "currentMonth: " + currentMonth);
+        Log.v(LOG_TAG, "currentDay: " + currentDay);
+
     }
 
 
@@ -291,7 +318,11 @@ public class RecordDetailActivity extends AppCompatActivity {
         Log.v(LOG_TAG, "TextUtils.isEmpty(lastname2): " + TextUtils.isEmpty(lastname2));
         Log.v(LOG_TAG, "TextUtils.isEmpty(recordText): " + TextUtils.isEmpty(recordText));
         Log.v(LOG_TAG, "groupID.equals(0): " + groupID.equals("0"));
-        Log.v(LOG_TAG, "birthdate.equals(\"1 / Enero / 2000\"): " + (birthdate.equals("1 / Enero / 2000")));
+
+        String minBirthdateYear = "1 / Enero / " + (currentYear - 18);
+        Log.v(LOG_TAG, "minBirthdateYear: " + minBirthdateYear);
+
+
 
 
         if (TextUtils.isEmpty(uniqueID)
@@ -300,7 +331,7 @@ public class RecordDetailActivity extends AppCompatActivity {
                 && TextUtils.isEmpty(lastname2)
                 && TextUtils.isEmpty(recordText)
                 && groupID.equals("0")
-                && birthdate.equals("1 / Enero / 2000")) {
+                && birthdate.equals(minBirthdateYear)) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
 

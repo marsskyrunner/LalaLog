@@ -47,6 +47,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import static com.mars_skyrunner.lalalog.RecordDetailActivity.currentDay;
+import static com.mars_skyrunner.lalalog.RecordDetailActivity.currentMonth;
+import static com.mars_skyrunner.lalalog.RecordDetailActivity.currentYear;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.getSubjectsArrayList;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
 
@@ -80,10 +83,6 @@ public class RecordDetailFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
 
-    //Current Date variables
-    int currentYear;
-    int currentMonth;
-    int currentDay;
 
 
     //Edition Elements
@@ -170,22 +169,6 @@ public class RecordDetailFragment extends Fragment {
 
     }
 
-    private void updateDate() {
-
-        Date currentTime = Calendar.getInstance().getTime();
-        String day = (String) DateFormat.format("dd", currentTime);
-        String monthNumber = (String) DateFormat.format("MM", currentTime);
-        String year = (String) DateFormat.format("yyyy", currentTime);
-
-        currentYear = Integer.parseInt(year.trim());
-        currentMonth = Integer.parseInt(monthNumber.trim());
-        currentDay = Integer.parseInt(day.trim());
-
-        Log.v(LOG_TAG, "currenYear: " + currentYear);
-        Log.v(LOG_TAG, "currentMonth: " + currentMonth);
-        Log.v(LOG_TAG, "currentDay: " + currentDay);
-
-    }
 
     private String getRecordTime() {
         String time = "";
@@ -209,7 +192,6 @@ public class RecordDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.record_detail, container, false);
 
-        updateDate();
         initEditionElements(rootView);
 
         // Show the record text content as text in a TextView.
