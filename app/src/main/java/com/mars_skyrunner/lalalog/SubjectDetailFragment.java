@@ -158,23 +158,7 @@ public class SubjectDetailFragment extends Fragment {
             Log.v(LOG_TAG,"subjectUriStr null ");
 
             subjectToEditUri = subjectBundle.getString(Constants.SUBJECT_URI_STRING);
-
-            String labelText ="";
-
-            if(!subjectToEditUri.equals("null")){ //This is a Subject Edition request
-
-                Log.v(LOG_TAG,"Subject Edition request");
-                labelText = getResources().getString(R.string.title_edit_subject);
-
-            }else{////This is a Subject Add request
-
-                Log.v(LOG_TAG,"Subject Add request");
-                labelText = getResources().getString(R.string.title_new_subject);
-
-            }
-
             mItem = null;
-            getActivity().setTitle(labelText);//TODO: PARECE QUE ESTA LINEA NO ESTA ENTRANDO
 
         }
 

@@ -701,6 +701,8 @@ public class RecordDetailFragment extends Fragment {
                     Log.v(LOG_TAG, "recordReference: " + recordReference);
 
                     uniqueID = subjectSelected.getSubjectID();
+
+                    //TODO: CHECK IF RECORD HAS BEEN CHANGED BEFORE SAVING IT AGAIN
                     updateRecordType(recordReference);
 
                 }else{

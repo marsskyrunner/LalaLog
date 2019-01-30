@@ -77,6 +77,7 @@ public class SubjectListActivity extends AppCompatActivity  implements
                 Intent intent = new Intent(this,SubjectDetailActivity.class);
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
                 intent.putExtra(Constants.SUBJECT_URI_STRING,"null");//Subject to edit Uri
+                intent.putExtra(Constants.SUBJECT_DETAIL_MODE, Constants.NEW_SUBJECT);
                 this.startActivity(intent);
 
                 break;

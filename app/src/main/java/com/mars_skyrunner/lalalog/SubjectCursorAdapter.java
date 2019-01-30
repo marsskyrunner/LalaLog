@@ -160,6 +160,10 @@ public class SubjectCursorAdapter extends CursorAdapter {
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
                 intent.putExtra(Constants.SUBJECT_URI_STRING,subjectUriStr);//Subject to edit Uri
 
+                Log.v(LOG_TAG, "SUBJECT_DETAIL_MODE: " + Constants.EDIT_SUBJECT);
+
+                intent.putExtra(Constants.SUBJECT_DETAIL_MODE, Constants.EDIT_SUBJECT);
+
                 mContext.startActivity(intent);
 
             }
@@ -179,6 +183,10 @@ public class SubjectCursorAdapter extends CursorAdapter {
                 Intent intent = new Intent(mContext,SubjectDetailActivity.class);
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
                 intent.putExtra(Constants.SUBJECT_URI_STRING,"null");
+
+                Log.v(LOG_TAG, "SUBJECT_DETAIL_MODE: " + Constants.REVIEW_SUBJECT);
+
+                intent.putExtra(Constants.SUBJECT_DETAIL_MODE, Constants.REVIEW_SUBJECT);
 
                 mContext.startActivity(intent);
 

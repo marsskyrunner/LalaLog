@@ -10,6 +10,12 @@ public class Constants {
     //Save fab button read broadcast receiver
     private static String packageName =  "com.mars_skyrunner.lalalog";
     public static final String RESULT = packageName + ".RESULT";
+
+    public static final String NEW_SUBJECT = packageName + ".NEW_SUBJECT";
+    public static final String EDIT_SUBJECT = packageName + ".EDIT_SUBJECT";
+    public static final String REVIEW_SUBJECT = packageName + ".REVIEW_SUBJECT";
+    public static final String SUBJECT_DETAIL_MODE = packageName + ".SUBJECT_DETAIL_MODE";
+
     public static final String DELETE_SUBJECT_SERVICE_RESULT = packageName + ".DELETE_SUBJECT_SERVICE_RESULT" ;
     public static final String SAVE_RECORD = "com.mars_skyrunner.lalalog.SAVE_RECORD";
     public static final int RECORD_LOADER = 100;

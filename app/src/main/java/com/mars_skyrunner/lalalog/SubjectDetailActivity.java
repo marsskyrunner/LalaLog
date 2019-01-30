@@ -36,22 +36,23 @@ public class SubjectDetailActivity extends AppCompatActivity {
         Bundle subjectBundle = getIntent().getBundleExtra(Constants.SUBJECT_BUNDLE);
         String subjectUriStr = subjectBundle.getString(Constants.ARG_ITEM_ID);
 
+
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.subject_detail_activity_menu, menu);
         addSubjectMenuItem = menu.findItem(R.id.add_subject_icon);
         deleteSubjectMenuItem = menu.findItem(R.id.delete_subject);
 
         if(subjectUriStr.equals("null")){
-
-            setTitle(getString(R.string.title_new_subject));
             addSubjectMenuItem.setVisible(true);
             deleteSubjectMenuItem.setVisible(false);
 
         }else{
-            setTitle(getString(R.string.title_edit_subject));
             addSubjectMenuItem.setVisible(false);
             deleteSubjectMenuItem.setVisible(true);
         }
+
+
 
 
 
@@ -95,6 +96,24 @@ public class SubjectDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle subjectBundle = intent.getBundleExtra(Constants.SUBJECT_BUNDLE);
         String subjectToEditUri = intent.getStringExtra(Constants.SUBJECT_URI_STRING);
+
+
+        String detailMode  = getIntent().getStringExtra(Constants.SUBJECT_DETAIL_MODE);
+        Log.v(LOG_TAG,"detailMode: " + detailMode);
+
+        switch (detailMode){
+
+            case "com.mars_skyrunner.lalalog.NEW_SUBJECT":
+                setTitle(getString(R.string.title_new_subject));
+                break;
+
+            case "com.mars_skyrunner.lalalog.EDIT_SUBJECT":
+                setTitle(getString(R.string.title_edit_subject));
+                break;
+
+
+        }
+
 
         Log.v(LOG_TAG,"subjectToEditUri: " + subjectToEditUri);
 

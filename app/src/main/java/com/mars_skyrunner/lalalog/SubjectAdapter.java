@@ -178,7 +178,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
                 Intent intent = new Intent(mActivity,SubjectDetailActivity.class);
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
                 intent.putExtra(Constants.SUBJECT_URI_STRING,subjectUriStr);//Subject to edit Uri
-
+                intent.putExtra(Constants.SUBJECT_DETAIL_MODE, Constants.EDIT_SUBJECT);
                 mActivity.startActivity(intent);
 
             }
@@ -198,7 +198,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
                 Intent intent = new Intent(mActivity,SubjectDetailActivity.class);
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
                 intent.putExtra(Constants.SUBJECT_URI_STRING,"null");
-
+                intent.putExtra(Constants.SUBJECT_DETAIL_MODE, Constants.REVIEW_SUBJECT);
                 mActivity.startActivity(intent);
 
             }
