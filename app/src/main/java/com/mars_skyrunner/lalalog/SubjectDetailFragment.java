@@ -44,6 +44,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentMonth;
+import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentYear;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.getSubjectsArrayList;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
 
@@ -75,10 +77,7 @@ public class SubjectDetailFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
 
-    //Current Date variables
-    int currentYear;
-    int currentMonth;
-    int currentDay;
+
 
     //Edition Elements
 
@@ -192,22 +191,7 @@ public class SubjectDetailFragment extends Fragment {
 
     }
 
-    private void updateDate() {
 
-        Date currentTime = Calendar.getInstance().getTime();
-        String day = (String) DateFormat.format("dd", currentTime);
-        String monthNumber = (String) DateFormat.format("MM", currentTime);
-        String year = (String) DateFormat.format("yyyy", currentTime);
-
-        currentYear = Integer.parseInt(year.trim());
-        currentMonth = Integer.parseInt(monthNumber.trim());
-        currentDay = Integer.parseInt(day.trim());
-
-        Log.v(LOG_TAG, "updateDate currenYear: " + currentYear);
-        Log.v(LOG_TAG, "updateDate currentMonth: " + currentMonth);
-        Log.v(LOG_TAG, "updateDate currentDay: " + currentDay);
-
-    }
 
 
     @Override
@@ -215,7 +199,6 @@ public class SubjectDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.subject_detail, container, false);
-        updateDate();
         initEditionElements(rootView);
 
         if (mItem != null) { //Subject list item clicked, Subject Review request
@@ -311,6 +294,7 @@ public class SubjectDetailFragment extends Fragment {
         ArrayList<String> answer = new ArrayList<>();
 
         for(int i = MAX_AGE ; i >= MIN_AGE ; i--){
+
             answer.add("" + (currentYear - i));
             Log.v(LOG_TAG,"getYearArrayList: ADD " + (currentYear - i));
         }

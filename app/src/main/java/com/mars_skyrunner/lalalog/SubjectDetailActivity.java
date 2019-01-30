@@ -9,11 +9,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.mars_skyrunner.lalalog.SubjectDetailFragment.mUniqueIDAutoComplete;
 import static com.mars_skyrunner.lalalog.SubjectDetailFragment.mNameEditText;
@@ -30,6 +34,8 @@ public class SubjectDetailActivity extends AppCompatActivity {
     private String LOG_TAG =  SubjectDetailActivity.class.getSimpleName();
     public static MenuItem addSubjectMenuItem,deleteSubjectMenuItem;
 
+    //Todays Date variables
+    public static int currentYear,currentMonth,currentDay;
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -91,6 +97,8 @@ public class SubjectDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_detail);
 
+        updateDate();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
@@ -128,6 +136,24 @@ public class SubjectDetailActivity extends AppCompatActivity {
                 .commit();
 
     }
+
+    private void updateDate() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String day = (String) DateFormat.format("dd", currentTime);
+        String monthNumber = (String) DateFormat.format("MM", currentTime);
+        String year = (String) DateFormat.format("yyyy", currentTime);
+
+        currentYear = Integer.parseInt(year.trim());
+        currentMonth = Integer.parseInt(monthNumber.trim());
+        currentDay = Integer.parseInt(day.trim());
+
+        Log.v(LOG_TAG, "updateDate currenYear: " + currentYear);
+        Log.v(LOG_TAG, "updateDate currentMonth: " + currentMonth);
+        Log.v(LOG_TAG, "updateDate currentDay: " + currentDay);
+
+    }
+
 
     private boolean navigateUp() {
 
@@ -178,6 +204,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
         String birthdate = birthdateDay + " / " + birthdateMonth + " / " + birthdateYear;
 
 
+        String minBirthdate = "1 / Enero / " + (currentYear - 18);
         Log.v(LOG_TAG,"checkEditionStatus()");
 
         Log.v(LOG_TAG,"groupID: " + groupID);
@@ -188,7 +215,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
         Log.v(LOG_TAG,"TextUtils.isEmpty(lastname1): " + TextUtils.isEmpty(lastname1));
         Log.v(LOG_TAG,"TextUtils.isEmpty(lastname2): " + TextUtils.isEmpty(lastname2));
         Log.v(LOG_TAG,"groupID.equals(0): " + groupID.equals("0"));
-        Log.v(LOG_TAG,"birthdate.equals(\"1 / Enero / 2000\"): " + (birthdate.equals("1 / Enero / 2000")));
+        Log.v(LOG_TAG,"minBirthdate: " + minBirthdate);
 
 
         if (TextUtils.isEmpty(uniqueID)
@@ -196,7 +223,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
                 && TextUtils.isEmpty(lastname1)
                 && TextUtils.isEmpty(lastname2)
                 && groupID.equals("0")
-                && birthdate.equals("1 / Enero / 2000")) {
+                && birthdate.equals(minBirthdate)) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
 
