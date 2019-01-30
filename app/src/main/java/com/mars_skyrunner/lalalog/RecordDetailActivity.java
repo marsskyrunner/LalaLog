@@ -52,8 +52,17 @@ public class RecordDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.record_detail_activity_menu, menu);
+        String detailMode = getIntent().getStringExtra(Constants.RECORD_DETAIL_MODE);
+        Log.v(LOG_TAG, "Record detailMode: " + detailMode);
+
+        if(detailMode.equals(Constants.REVIEW_RECORD)){
+
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.record_detail_activity_menu, menu);
+
+        }
+
+
 
         return true;
 

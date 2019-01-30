@@ -158,6 +158,7 @@ public class RecordListActivity extends AppCompatActivity implements
                             .commit();
                 } else {
                     intent.putExtra(Constants.RECORD_BUNDLE, arguments);
+                    intent.putExtra(Constants.RECORD_DETAIL_MODE, Constants.NEW_RECORD);
                     startActivity(intent);
                 }
             }
