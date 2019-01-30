@@ -26,6 +26,7 @@ import static com.mars_skyrunner.lalalog.SubjectDetailFragment.mGroupSpinner;
 
 public class SubjectDetailActivity extends AppCompatActivity {
 
+
     private String LOG_TAG =  SubjectDetailActivity.class.getSimpleName();
     public static MenuItem addSubjectMenuItem,deleteSubjectMenuItem;
 
@@ -47,6 +48,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
             deleteSubjectMenuItem.setVisible(false);
 
         }else{
+            setTitle(getString(R.string.title_edit_subject));
             addSubjectMenuItem.setVisible(false);
             deleteSubjectMenuItem.setVisible(true);
         }
@@ -74,6 +76,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
 
             case R.id.delete_subject:
 
+                //TODO : PROGRAM THIS
                 Toast.makeText(this,"delete_subject",Toast.LENGTH_SHORT).show();
                 break;
 

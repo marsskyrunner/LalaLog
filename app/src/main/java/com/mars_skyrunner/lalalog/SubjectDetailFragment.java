@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,6 +98,7 @@ public class SubjectDetailFragment extends Fragment {
     public static EditText mLastName2EditText;
     public static Spinner mGroupSpinner, mBirthdateDaySpinner, mBirthdateMonthSpinner, mBirthdateYearSpinner;
     public static AutoCompleteTextView mUniqueIDAutoComplete;
+    public static LinearLayout mBirthdateLayout;
 
     CardView mNameCardView;
     CardView mLastName1CardView;
@@ -172,7 +174,7 @@ public class SubjectDetailFragment extends Fragment {
             }
 
             mItem = null;
-            getActivity().setTitle(labelText);
+            getActivity().setTitle(labelText);//TODO: PARECE QUE ESTA LINEA NO ESTA ENTRANDO
 
         }
 
@@ -200,10 +202,7 @@ public class SubjectDetailFragment extends Fragment {
         mNameEditText.setText(subject.getSubjectName());
         mLastName1EditText.setText(subject.getSubjectLastName1());
         mLastName2EditText.setText(subject.getSubjectLastName2());
-//        mGroupSpinner = rootView.findViewById(R.id.group_spinner);
-//        mBirthdateDaySpinner = rootView.findViewById(R.id.birthdate_day_spinner);
-//        mBirthdateMonthSpinner = rootView.findViewById(R.id.birthdate_month_spinner);
-        //mBirthdateYearSpinner= rootView.findViewById(R.id.birthdate_year_spinner);
+
         mUniqueIDAutoComplete.setText("" + subject.getSubjectUniqueID());
 
 
@@ -410,9 +409,7 @@ public class SubjectDetailFragment extends Fragment {
         mLastName2CardView.setVisibility(View.GONE);
         mNameEditText.setVisibility(View.GONE);
         mGroupSpinner.setVisibility(View.GONE);
-        mBirthdateDaySpinner.setVisibility(View.GONE);
-        mBirthdateMonthSpinner.setVisibility(View.GONE);
-        mBirthdateYearSpinner.setVisibility(View.GONE);
+        mBirthdateLayout.setVisibility(View.GONE);
         mUniqueIDAutoComplete.setVisibility(View.GONE);
 
         mGroupTextView.setVisibility(View.VISIBLE);
@@ -427,9 +424,7 @@ public class SubjectDetailFragment extends Fragment {
         mLastName2CardView.setVisibility(View.VISIBLE);
         mNameEditText.setVisibility(View.VISIBLE);
         mGroupSpinner.setVisibility(View.VISIBLE);
-        mBirthdateDaySpinner.setVisibility(View.VISIBLE);
-        mBirthdateMonthSpinner.setVisibility(View.VISIBLE);
-        mBirthdateYearSpinner.setVisibility(View.VISIBLE);
+        mBirthdateLayout.setVisibility(View.VISIBLE);
         mUniqueIDAutoComplete.setVisibility(View.VISIBLE);
 
         mNameTextView.setVisibility(View.GONE);
@@ -448,6 +443,10 @@ public class SubjectDetailFragment extends Fragment {
         mNameEditText = rootView.findViewById(R.id.name_edittext);
         mLastName1EditText = rootView.findViewById(R.id.lastname1_edittext);
         mLastName2EditText = rootView.findViewById(R.id.lastname2_edittext);
+        mGroupSpinner = rootView.findViewById(R.id.group_spinner);
+        mBirthdateLayout = rootView.findViewById(R.id.birthdate_spinner_layout);
+
+
 
         mGroupSpinner = rootView.findViewById(R.id.group_spinner);
         initGroupSpinner();

@@ -682,8 +682,6 @@ public class RecordDetailFragment extends Fragment {
                 birthdateMonth = mBirthdateMonthSpinner.getSelectedItem().toString();
                 birthdateYear = mBirthdateYearSpinner.getSelectedItem().toString();
 
-                //TODO: check if any edit text is empty before saving record
-
                 birthdate = birthdateDay + " / " + birthdateMonth + " / " + birthdateYear;
 
                 if(!TextUtils.isEmpty(uniqueID)){
