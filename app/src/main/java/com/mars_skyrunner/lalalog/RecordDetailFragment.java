@@ -50,6 +50,7 @@ import java.util.Iterator;
 import static com.mars_skyrunner.lalalog.RecordDetailActivity.currentDay;
 import static com.mars_skyrunner.lalalog.RecordDetailActivity.currentMonth;
 import static com.mars_skyrunner.lalalog.RecordDetailActivity.currentYear;
+import static com.mars_skyrunner.lalalog.RecordDetailActivity.detailMode;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.getSubjectsArrayList;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
 
@@ -67,7 +68,7 @@ public class RecordDetailFragment extends Fragment {
     private final int MAX_AGE = 18;
 
     //Log tag
-    private String LOG_TAG = RecordDetailActivity.class.getSimpleName();
+    private String LOG_TAG = RecordDetailFragment.class.getSimpleName();
 
     /**
      * The dummy content this fragment is presenting.
@@ -112,6 +113,9 @@ public class RecordDetailFragment extends Fragment {
     private ArrayList<String> yearArrayList;
 
     public static Bundle newRecordBundle = new Bundle();
+
+
+    View rootView;
 
     public RecordDetailFragment() {
     }
@@ -194,24 +198,15 @@ public class RecordDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.record_detail, container, false);
+        rootView = inflater.inflate(R.layout.record_detail, container, false);
 
-        initEditionElements(rootView);
+        initEditionElements();
 
         // Show the record text content as text in a TextView.
         if (mItem != null) {
 
-            String displayName = mItem.getSubject().getSubjectName() + " " + mItem.getSubject().getSubjectLastName1() + " " + mItem.getSubject().getSubjectLastName2();
-            Log.v(LOG_TAG, "onCreateView: displayName: " + displayName);
-
             hideEditionMode();
-            ((TextView) rootView.findViewById(R.id.record_detail)).setText(mItem.getRecordText());
-            ((TextView) rootView.findViewById(R.id.subject_name)).setText(displayName);
-            ((TextView) rootView.findViewById(R.id.subject_group)).setText(mItem.getSubject().getGroupDisplay());
-            ((TextView) rootView.findViewById(R.id.subject_birthdate)).setText(mItem.getSubject().getSubjectBirthdate());
-            ((TextView) rootView.findViewById(R.id.subject_unique_id)).setText("" + mItem.getSubject().getSubjectUniqueID());
-            ((TextView) rootView.findViewById(R.id.record_date)).setText(mItem.getDate());
-            ((TextView) rootView.findViewById(R.id.record_time)).setText(mItem.getTime());
+            fillEditionModeTextViews();
 
         } else {
             showEditionMode();
@@ -220,6 +215,20 @@ public class RecordDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    private void fillEditionModeTextViews() {
+
+        String displayName = mItem.getSubject().getSubjectName() + " " + mItem.getSubject().getSubjectLastName1() + " " + mItem.getSubject().getSubjectLastName2();
+        Log.v(LOG_TAG, "fillEditionModeTextViews: displayName: " + displayName);
+
+        ((TextView) rootView.findViewById(R.id.record_detail)).setText(mItem.getRecordText());
+        ((TextView) rootView.findViewById(R.id.subject_name)).setText(displayName);
+        ((TextView) rootView.findViewById(R.id.subject_group)).setText(mItem.getSubject().getGroupDisplay());
+        ((TextView) rootView.findViewById(R.id.subject_birthdate)).setText(mItem.getSubject().getSubjectBirthdate());
+        ((TextView) rootView.findViewById(R.id.subject_unique_id)).setText("" + mItem.getSubject().getSubjectUniqueID());
+        ((TextView) rootView.findViewById(R.id.record_date)).setText(mItem.getDate());
+        ((TextView) rootView.findViewById(R.id.record_time)).setText(mItem.getTime());
     }
 
     private void initGroupSpinner() {
@@ -361,7 +370,7 @@ public class RecordDetailFragment extends Fragment {
 
     }
 
-    private void initEditionElements(View rootView) {
+    private void initEditionElements() {
 
         //Edition elements
         mLastName1CardView = rootView.findViewById(R.id.lastname1_cardview);
@@ -688,9 +697,6 @@ public class RecordDetailFragment extends Fragment {
 
                     uniqueID = subjectSelected.getSubjectID();
 
-                    //TODO: CHECK IF RECORD HAS BEEN CHANGED BEFORE SAVING IT AGAIN
-                    updateRecordType(recordReference);
-
                 }else{
                     uniqueID = mUniqueIDTextView.getText().toString();
                 }
@@ -739,48 +745,84 @@ public class RecordDetailFragment extends Fragment {
 
                 Log.v(LOG_TAG,"saveReceiver :no fields were modified");
                 Toast.makeText(getActivity(),getString(R.string.no_changes_made),Toast.LENGTH_SHORT).show();
-                getActivity().finish();
 
-                return;
-            }
+                if(detailMode.equals(Constants.NEW_RECORD)){
 
+                    NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
 
-            // Create a ContentValues object where column names are the keys,
-            // and pet attributes from the editor are the values.
-            ContentValues values = new ContentValues();
-            values.put(RecordEntry.COLUMN_SUBJECT_ID,subjectID );
-            values.put(RecordEntry.COLUMN_SUBJECT_GROUP_ID, groupID);
-            values.put(RecordEntry.COLUMN_RECORD_TYPE, RecordEntry.CURRENT);
-            values.put(RecordEntry.COLUMN_RECORD_REFERENCE_ID, recordReference);
-            values.put(RecordEntry.COLUMN_RECORD_TEXT, recordText);
-            values.put(RecordEntry.COLUMN_RECORD_TIME, getRecordTime());
-            values.put(RecordEntry.COLUMN_RECORD_DATE, getRecordDate());
+                }else{
 
-            Uri newUri;
-
-            // This is a NEW record, so insert a new record into the provider,
-            // returning the content URI for the new record.
-            newUri = getActivity().getContentResolver().insert(RecordEntry.CONTENT_URI, values);
-
-            // Show a toast message depending on whether or not the insertion was successful.
-            if (newUri == null) {
-                // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(getActivity(), getString(R.string.editor_record_failed), Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(getActivity(), getString(R.string.editor_record_success), Toast.LENGTH_SHORT).show();
-
-                if(!recordEditionFlag){
-
-                    updateRecordReference(newUri);
+                    hideEditionMode();
+                    mRecordEditText.getText().clear();
+                    ((TextView) rootView.findViewById(R.id.record_detail)).setText(recordText);
 
                 }
 
+                return;
+
+            }else {
+
+                if(recordEditionFlag && recordText.equals(prevRecordText)){
+
+
+                    hideEditionMode();
+                    mRecordEditText.getText().clear();
+                    ((TextView) rootView.findViewById(R.id.record_detail)).setText(recordText);
+
+                    Log.v(LOG_TAG,"record edition :no fields were modified");
+                    Toast.makeText(getActivity(),getString(R.string.no_changes_made),Toast.LENGTH_SHORT).show();
+                    //After saving changes, go back to RecordListActivity
+                    //NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+
+                }else{
+
+                    // Create a ContentValues object where column names are the keys,
+                    // and pet attributes from the editor are the values.
+                    ContentValues values = new ContentValues();
+                    values.put(RecordEntry.COLUMN_SUBJECT_ID,subjectID );
+                    values.put(RecordEntry.COLUMN_SUBJECT_GROUP_ID, groupID);
+                    values.put(RecordEntry.COLUMN_RECORD_TYPE, RecordEntry.CURRENT);
+                    values.put(RecordEntry.COLUMN_RECORD_REFERENCE_ID, recordReference);
+                    values.put(RecordEntry.COLUMN_RECORD_TEXT, recordText);
+                    values.put(RecordEntry.COLUMN_RECORD_TIME, getRecordTime());
+                    values.put(RecordEntry.COLUMN_RECORD_DATE, getRecordDate());
+
+                    Uri newUri;
+
+                    // This is a NEW record, so insert a new record into the provider,
+                    // returning the content URI for the new record.
+                    newUri = getActivity().getContentResolver().insert(RecordEntry.CONTENT_URI, values);
+
+                    // Show a toast message depending on whether or not the insertion was successful.
+                    if (newUri == null) {
+                        // If the new content URI is null, then there was an error with insertion.
+                        Toast.makeText(getActivity(), getString(R.string.editor_record_failed), Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Otherwise, the insertion was successful and we can display a toast.
+                        Toast.makeText(getActivity(), getString(R.string.editor_record_success), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    if(recordEditionFlag ){
+
+                        hideEditionMode();
+
+                        ((TextView) rootView.findViewById(R.id.record_detail)).setText(recordText);
+                        prevRecordText = recordText;
+
+                        updateRecordType(recordReference);
+                    }else{
+                        updateRecordReference(newUri);
+                        //After saving changes, go back to RecordListActivity
+                        //NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+                        NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+
+                    }
+
+
+                }
             }
 
-
-            //After saving changes, go back to RecordListActivity
-            NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
 
         }
 

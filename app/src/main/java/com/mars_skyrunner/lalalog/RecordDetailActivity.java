@@ -55,12 +55,14 @@ public class RecordDetailActivity extends AppCompatActivity {
     //Current Date variables
     public static int currentYear,currentMonth,currentDay;
 
+    public static String detailMode;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        String detailMode = getIntent().getStringExtra(Constants.RECORD_DETAIL_MODE);
-        Log.v(LOG_TAG, "Record detailMode: " + detailMode);
+//        String detailMode = getIntent().getStringExtra(Constants.RECORD_DETAIL_MODE);
+//        Log.v(LOG_TAG, "Record detailMode: " + detailMode);
 
         if(detailMode.equals(Constants.REVIEW_RECORD)){
 
@@ -85,6 +87,8 @@ public class RecordDetailActivity extends AppCompatActivity {
 
         updateDate();
 
+        detailMode = getIntent().getStringExtra(Constants.RECORD_DETAIL_MODE);
+        Log.v(LOG_TAG, "Record detailMode: " + detailMode);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -110,6 +114,9 @@ public class RecordDetailActivity extends AppCompatActivity {
         okFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                editionFab.setVisibility(View.VISIBLE);
+                okFab.setVisibility(View.GONE);
 
                 Intent intent = new Intent(Constants.SAVE_RECORD);
                 sendBroadcast(intent);
