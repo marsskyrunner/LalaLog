@@ -774,6 +774,8 @@ public class SubjectDetailFragment extends Fragment {
         Constants.SUBJECT_MAP.put(sId, subject);
         // Setup an Adapter to create a list item for each row of pet data in the Cursor.
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+
+
         mSubjectAdapter = new SubjectAdapter(getActivity(), getSubjectsArrayList());
         SubjectListActivity.subjectListView.setAdapter(mSubjectAdapter);
     }

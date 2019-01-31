@@ -36,20 +36,16 @@ public class SubjectDetailActivity extends AppCompatActivity {
 
     //Todays Date variables
     public static int currentYear,currentMonth,currentDay;
+    String subjectUri;
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        Bundle subjectBundle = getIntent().getBundleExtra(Constants.SUBJECT_BUNDLE);
-        String subjectUriStr = subjectBundle.getString(Constants.ARG_ITEM_ID);
-
-
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.subject_detail_activity_menu, menu);
         addSubjectMenuItem = menu.findItem(R.id.add_subject_icon);
         deleteSubjectMenuItem = menu.findItem(R.id.delete_subject);
 
-        if(subjectUriStr.equals("null")){
+        if(subjectUri.equals("null")){
             addSubjectMenuItem.setVisible(true);
             deleteSubjectMenuItem.setVisible(false);
 
@@ -57,10 +53,6 @@ public class SubjectDetailActivity extends AppCompatActivity {
             addSubjectMenuItem.setVisible(false);
             deleteSubjectMenuItem.setVisible(true);
         }
-
-
-
-
 
         return true;
 
@@ -83,8 +75,29 @@ public class SubjectDetailActivity extends AppCompatActivity {
 
             case R.id.delete_subject:
 
-                //TODO : PROGRAM THIS
-                Toast.makeText(this,"delete_subject",Toast.LENGTH_SHORT).show();
+                Log.v(LOG_TAG,"deleteButtonListener");
+
+                DialogInterface.OnClickListener deleteButtonListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User clicked "accept" button, navigate to parent activity.
+
+                                Log.v(LOG_TAG,"deleteButtonListener");
+
+                                //Kicks off SubjectDeleteService
+                                Intent deleteSubjectIntent = new Intent(SubjectDetailActivity.this, SubjectDeleteService.class);
+                                deleteSubjectIntent.putExtra(Constants.DELETE_SERVICE_EXTRA, subjectUri);
+                                startService(deleteSubjectIntent);
+
+                                finish();
+
+                            }
+                        };
+
+                // Show a dialog that confirms user decision to delete record
+                showDeleteConfirmDialog(deleteButtonListener);
+
                 break;
 
         }
@@ -103,7 +116,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle subjectBundle = intent.getBundleExtra(Constants.SUBJECT_BUNDLE);
-        String subjectToEditUri = intent.getStringExtra(Constants.SUBJECT_URI_STRING);
+        subjectUri = intent.getStringExtra(Constants.SUBJECT_URI_STRING);
 
 
         String detailMode  = getIntent().getStringExtra(Constants.SUBJECT_DETAIL_MODE);
@@ -123,9 +136,9 @@ public class SubjectDetailActivity extends AppCompatActivity {
         }
 
 
-        Log.v(LOG_TAG,"subjectToEditUri: " + subjectToEditUri);
+        Log.v(LOG_TAG,"subjectUri: " + subjectUri);
 
-        subjectBundle.putString(Constants.SUBJECT_URI_STRING,subjectToEditUri);
+        subjectBundle.putString(Constants.SUBJECT_URI_STRING,subjectUri);
 
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.
@@ -301,6 +314,37 @@ public class SubjectDetailActivity extends AppCompatActivity {
             super.onBackPressed();
         }
 
+    }
+
+
+    private void showDeleteConfirmDialog(
+
+            DialogInterface.OnClickListener deleteButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SubjectDetailActivity.this);
+        builder.setMessage(R.string.delete_subject_dialog_msg);
+        builder.setPositiveButton(R.string.accept, deleteButtonClickListener);
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                Log.v(LOG_TAG,"setNegativeButton");
+
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+
+        Log.v(LOG_TAG,"builder.create()");
+
+        alertDialog.show();
+
+        Log.v(LOG_TAG,"alertDialog.show()");
     }
 
 }

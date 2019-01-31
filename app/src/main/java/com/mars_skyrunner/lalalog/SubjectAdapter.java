@@ -197,7 +197,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
 
                 Intent intent = new Intent(mActivity,SubjectDetailActivity.class);
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
-                intent.putExtra(Constants.SUBJECT_URI_STRING,"null");
+                intent.putExtra(Constants.SUBJECT_URI_STRING,subjectUriStr);
                 intent.putExtra(Constants.SUBJECT_DETAIL_MODE, Constants.REVIEW_SUBJECT);
                 mActivity.startActivity(intent);
 

@@ -150,7 +150,6 @@
             <Spinner
                 android:id="@+id/group_spinner"
                 android:layout_margin="@dimen/list_item_margin_top"
-                android:padding="@dimen/list_item_margin_top"
                 style="@style/GroupSpinner"></Spinner>
 
 

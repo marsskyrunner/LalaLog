@@ -34,7 +34,7 @@ public class SubjectDeleteService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.v(LOG_TAG,"onHandleIntent"  );
+        Log.v(LOG_TAG,"onHandleIntent"  );//TODO: AL BORRAR AL ALUMNO, TAMBIEN BORRARA LOS REGISTROS DEL MISMO
 
         String subjectUriStr = intent.getStringExtra(Constants.DELETE_SERVICE_EXTRA);
         Uri mCurrentSubjectUri = Uri.parse(subjectUriStr);
