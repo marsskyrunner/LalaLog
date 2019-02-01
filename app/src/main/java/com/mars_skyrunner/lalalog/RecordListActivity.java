@@ -443,6 +443,6 @@ public class RecordListActivity extends AppCompatActivity implements
         super.onResume();
         Log.v(LOG_TAG,"onResume()");
         // Kick off the record loader
-        getLoaderManager().initLoader(Constants.SUBJECT_LOADER, null, this);
+        getLoaderManager().restartLoader(Constants.SUBJECT_LOADER, null, this);
     }
 }

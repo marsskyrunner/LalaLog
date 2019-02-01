@@ -818,7 +818,8 @@ public class RecordDetailFragment extends Fragment {
                         updateRecordReference(newUri);
                         //After saving changes, go back to RecordListActivity
                         //NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
-                        NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+                        //NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+                        getActivity().finish();
 
                     }
 

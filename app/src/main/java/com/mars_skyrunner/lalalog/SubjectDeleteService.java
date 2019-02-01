@@ -49,8 +49,6 @@ public class SubjectDeleteService extends IntentService {
         // Defines a variable to contain the number of rows deleted
         int mRowsDeleted = 0;
 
-
-
         //BORRA REGISTROS DEL ALUMNO
 
         // Defines a variable to contain the number of rows deleted
