@@ -8,4 +8,12 @@
         android:icon="@drawable/ic_check_white"
         app:showAsAction="collapseActionView|ifRoom" />
 
+
+    <item android:id="@+id/delete_subject"
+
+
+        android:title="@string/delete_subject"
+        app:showAsAction="collapseActionView" />
+
+
 </menu>

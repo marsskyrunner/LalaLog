@@ -79,7 +79,6 @@
         <activity
             android:name=".SubjectDetailActivity"
             android:excludeFromRecents="true"
-            android:label="@string/title_new_subject"
             android:launchMode="singleTop"
             android:parentActivityName=".SubjectListActivity"
             android:theme="@style/AppTheme">
@@ -111,7 +110,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
+        <service android:name=".SubjectDeleteService" />
         <service android:name=".RecordDeleteService" />
 
     </application>

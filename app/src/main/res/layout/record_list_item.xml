@@ -93,18 +93,14 @@
 
                 <ImageButton
                     android:id="@+id/delete_imagebtn"
-                    android:layout_width="72dp"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="24dp"
+                    style="@style/DeleteButtonStyle"
                     android:src="@drawable/ic_delete_white_24dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    />
 
             </FrameLayout>
 
-
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 

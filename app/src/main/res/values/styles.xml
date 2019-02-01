@@ -41,11 +41,21 @@
 
     <style name="GroupSpinner" >
 
-        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/primary_text_size</item>
         <item name="android:background">@drawable/group_spinner_background</item>
 
     </style>
+
+    <style name="DeleteButtonStyle" >
+
+        <item name="android:layout_width">@dimen/delete_button_width_size</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:padding">@dimen/delete_button_padding</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
 </resources>

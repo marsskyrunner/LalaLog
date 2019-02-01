@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,9 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.mars_skyrunner.lalalog.data.RecordContract;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateDaySpinner;
 import static com.mars_skyrunner.lalalog.RecordDetailFragment.mBirthdateMonthSpinner;
@@ -48,12 +52,26 @@ public class RecordDetailActivity extends AppCompatActivity {
     // recordUri received from RecordListActivitys' intent
     String recordUriStr;
 
+    //Current Date variables
+    public static int currentYear,currentMonth,currentDay;
+
+    public static String detailMode;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.record_detail_activity_menu, menu);
+//        String detailMode = getIntent().getStringExtra(Constants.RECORD_DETAIL_MODE);
+//        Log.v(LOG_TAG, "Record detailMode: " + detailMode);
+
+        if(detailMode.equals(Constants.REVIEW_RECORD)){
+
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.record_detail_activity_menu, menu);
+
+        }
+
+
 
         return true;
 
@@ -67,6 +85,10 @@ public class RecordDetailActivity extends AppCompatActivity {
 
         Log.w(LOG_TAG, "onCreate");
 
+        updateDate();
+
+        detailMode = getIntent().getStringExtra(Constants.RECORD_DETAIL_MODE);
+        Log.v(LOG_TAG, "Record detailMode: " + detailMode);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -93,6 +115,9 @@ public class RecordDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                editionFab.setVisibility(View.VISIBLE);
+                okFab.setVisibility(View.GONE);
+
                 Intent intent = new Intent(Constants.SAVE_RECORD);
                 sendBroadcast(intent);
 
@@ -102,7 +127,10 @@ public class RecordDetailActivity extends AppCompatActivity {
         recordUriStr = args.getString(Constants.ARG_ITEM_ID);
         Log.w(LOG_TAG, "recordUriStr: " + recordUriStr);
 
+
         if (!recordUriStr.equals("null")) {//Existing Record selected
+
+
             editionFab.setVisibility(View.VISIBLE);
             okFab.setVisibility(View.GONE);
         } else {//New Record option selected
@@ -136,6 +164,24 @@ public class RecordDetailActivity extends AppCompatActivity {
                     .add(R.id.record_detail_container, fragment)
                     .commit();
         }
+    }
+
+
+    private void updateDate() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String day = (String) DateFormat.format("dd", currentTime);
+        String monthNumber = (String) DateFormat.format("MM", currentTime);
+        String year = (String) DateFormat.format("yyyy", currentTime);
+
+        currentYear = Integer.parseInt(year.trim());
+        currentMonth = Integer.parseInt(monthNumber.trim());
+        currentDay = Integer.parseInt(day.trim());
+
+        Log.v(LOG_TAG, "currenYear: " + currentYear);
+        Log.v(LOG_TAG, "currentMonth: " + currentMonth);
+        Log.v(LOG_TAG, "currentDay: " + currentDay);
+
     }
 
 
@@ -282,7 +328,11 @@ public class RecordDetailActivity extends AppCompatActivity {
         Log.v(LOG_TAG, "TextUtils.isEmpty(lastname2): " + TextUtils.isEmpty(lastname2));
         Log.v(LOG_TAG, "TextUtils.isEmpty(recordText): " + TextUtils.isEmpty(recordText));
         Log.v(LOG_TAG, "groupID.equals(0): " + groupID.equals("0"));
-        Log.v(LOG_TAG, "birthdate.equals(\"1 / Enero / 2000\"): " + (birthdate.equals("1 / Enero / 2000")));
+
+        String minBirthdateYear = "1 / Enero / " + (currentYear - 18);
+        Log.v(LOG_TAG, "minBirthdateYear: " + minBirthdateYear);
+
+
 
 
         if (TextUtils.isEmpty(uniqueID)
@@ -291,7 +341,7 @@ public class RecordDetailActivity extends AppCompatActivity {
                 && TextUtils.isEmpty(lastname2)
                 && TextUtils.isEmpty(recordText)
                 && groupID.equals("0")
-                && birthdate.equals("1 / Enero / 2000")) {
+                && birthdate.equals(minBirthdateYear)) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
 

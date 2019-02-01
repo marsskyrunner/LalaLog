@@ -114,6 +114,8 @@ public class RecordListActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +136,8 @@ public class RecordListActivity extends AppCompatActivity implements
         progressBar = (LinearLayout) findViewById(R.id.progress_bar);
         recordListView = (ListView) findViewById(R.id.record_list);
 
-        showLoaderViews();
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +160,7 @@ public class RecordListActivity extends AppCompatActivity implements
                             .commit();
                 } else {
                     intent.putExtra(Constants.RECORD_BUNDLE, arguments);
+                    intent.putExtra(Constants.RECORD_DETAIL_MODE, Constants.NEW_RECORD);
                     startActivity(intent);
                 }
             }
@@ -182,10 +186,7 @@ public class RecordListActivity extends AppCompatActivity implements
         // Setup an Adapter to create a list item for each row of pet data in the Cursor.
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
         mRecordCursorAdapter = new RecordCursorAdapter(this, null);
-
         recordListView.setAdapter(mRecordCursorAdapter);
-
-
 
         // Kick off the record loader
         getLoaderManager().initLoader(Constants.SUBJECT_LOADER, null, this);
@@ -197,10 +198,14 @@ public class RecordListActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
+        showLoaderViews();
 
         switch (i) {
 
             case Constants.RECORD_LOADER:
+
+                Log.v(LOG_TAG,"onCreateLoader RECORD_LOADER");
+
                 // Define a projection that specifies the columns from the table we care about.
                 String[] projection = {
                         RecordEntry._ID,
@@ -236,6 +241,9 @@ public class RecordListActivity extends AppCompatActivity implements
 
             case Constants.SUBJECT_LOADER:
                 // Define a projection that specifies the columns from the table we care about.
+
+                Log.v(LOG_TAG,"onCreateLoader SUBJECT_LOADER");
+
                 String[] projection2 = {
                         SubjectEntry._ID,    // Contract class constant for the _ID column name
                         SubjectEntry.COLUMN_SUBJECT_NAME,
@@ -269,6 +277,11 @@ public class RecordListActivity extends AppCompatActivity implements
         switch (loader.getId()) {
 
             case Constants.SUBJECT_LOADER:
+
+                Log.v(LOG_TAG,"onLoadFinished SUBJECT_LOADER");
+
+
+                Constants.SUBJECT_MAP = new HashMap<String, Subject>();
 
 //                // Proceed with moving to the first row of the cursor and reading data from it
 //
@@ -317,11 +330,14 @@ public class RecordListActivity extends AppCompatActivity implements
 
             case Constants.RECORD_LOADER:
 
+                Log.v(LOG_TAG,"onLoadFinished RECORD_LOADER");
+
                 hideLoaderViews();
 
                 // Update {@link RecordCursorAdapter} with this new cursor containing updated record data
                 mRecordCursorAdapter.swapCursor(cursor);
 
+                Constants.RECORD_MAP = new HashMap<String, Record>();
 
 //                // Proceed with moving to the first row of the cursor and reading data from it
 //
@@ -345,8 +361,8 @@ public class RecordListActivity extends AppCompatActivity implements
                         String time = cursor.getString(timeColumnIndex);
                         String subjectID = cursor.getString(subjectIDColumnIndex);
 
-
                         Subject subject = getSubject(subjectID);
+
                         Record record = new Record(recordID, date, time, text, subject);
                         record.setRecordReference(ref);
 
@@ -421,4 +437,12 @@ public class RecordListActivity extends AppCompatActivity implements
 
 
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(LOG_TAG,"onResume()");
+        // Kick off the record loader
+        getLoaderManager().initLoader(Constants.SUBJECT_LOADER, null, this);
+    }
 }

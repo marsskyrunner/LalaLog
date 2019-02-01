@@ -186,6 +186,8 @@ public class RecordCursorAdapter extends CursorAdapter {
                 Bundle arguments = new Bundle();
                 arguments.putString(Constants.ARG_ITEM_ID, currentRecordUri.toString());
                 intent.putExtra(Constants.RECORD_BUNDLE, arguments);
+                intent.putExtra(Constants.RECORD_DETAIL_MODE, Constants.REVIEW_RECORD);
+
                 // Set the URI on the data field of the intent
                 intent.setData(currentRecordUri);
 
@@ -321,14 +323,7 @@ public class RecordCursorAdapter extends CursorAdapter {
 
     }
 
-    /**
-     * Perform the deletion of the Record in the database.
-     */
-    private void deleteRecord() {
 
-
-
-    }
 
         private void showDeleteConfirmDialog(
 

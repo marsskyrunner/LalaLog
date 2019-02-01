@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentMonth;
+import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentYear;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.getSubjectsArrayList;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
 
@@ -53,6 +56,11 @@ import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
  * on handsets.
  */
 public class SubjectDetailFragment extends Fragment {
+
+
+    //TODO: AL EDITAR UN ALUMNO, NO SE PUEDE GUARDAR, LA   LA PALOMITA NO APARECE
+
+
 
     /*Default birthdate year when edition mode is enabled*/
     private static final CharSequence DEFAULT_BIRTHDATE_YEAR = "2000";
@@ -74,10 +82,7 @@ public class SubjectDetailFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
 
-    //Current Date variables
-    int currentYear;
-    int currentMonth;
-    int currentDay;
+
 
     //Edition Elements
 
@@ -97,6 +102,7 @@ public class SubjectDetailFragment extends Fragment {
     public static EditText mLastName2EditText;
     public static Spinner mGroupSpinner, mBirthdateDaySpinner, mBirthdateMonthSpinner, mBirthdateYearSpinner;
     public static AutoCompleteTextView mUniqueIDAutoComplete;
+    public static LinearLayout mBirthdateLayout;
 
     CardView mNameCardView;
     CardView mLastName1CardView;
@@ -156,23 +162,7 @@ public class SubjectDetailFragment extends Fragment {
             Log.v(LOG_TAG,"subjectUriStr null ");
 
             subjectToEditUri = subjectBundle.getString(Constants.SUBJECT_URI_STRING);
-
-            String labelText ="";
-
-            if(!subjectToEditUri.equals("null")){ //This is a Subject Edition request
-
-                Log.v(LOG_TAG,"Subject Edition request");
-                labelText = getResources().getString(R.string.title_edit_subject);
-
-            }else{////This is a Subject Add request
-
-                Log.v(LOG_TAG,"Subject Add request");
-                labelText = getResources().getString(R.string.title_new_subject);
-
-            }
-
             mItem = null;
-            getActivity().setTitle(labelText);
 
         }
 
@@ -200,31 +190,13 @@ public class SubjectDetailFragment extends Fragment {
         mNameEditText.setText(subject.getSubjectName());
         mLastName1EditText.setText(subject.getSubjectLastName1());
         mLastName2EditText.setText(subject.getSubjectLastName2());
-//        mGroupSpinner = rootView.findViewById(R.id.group_spinner);
-//        mBirthdateDaySpinner = rootView.findViewById(R.id.birthdate_day_spinner);
-//        mBirthdateMonthSpinner = rootView.findViewById(R.id.birthdate_month_spinner);
-        //mBirthdateYearSpinner= rootView.findViewById(R.id.birthdate_year_spinner);
+
         mUniqueIDAutoComplete.setText("" + subject.getSubjectUniqueID());
 
 
     }
 
-    private void updateDate() {
 
-        Date currentTime = Calendar.getInstance().getTime();
-        String day = (String) DateFormat.format("dd", currentTime);
-        String monthNumber = (String) DateFormat.format("MM", currentTime);
-        String year = (String) DateFormat.format("yyyy", currentTime);
-
-        currentYear = Integer.parseInt(year.trim());
-        currentMonth = Integer.parseInt(monthNumber.trim());
-        currentDay = Integer.parseInt(day.trim());
-
-        Log.v(LOG_TAG, "updateDate currenYear: " + currentYear);
-        Log.v(LOG_TAG, "updateDate currentMonth: " + currentMonth);
-        Log.v(LOG_TAG, "updateDate currentDay: " + currentDay);
-
-    }
 
 
     @Override
@@ -232,7 +204,6 @@ public class SubjectDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.subject_detail, container, false);
-        updateDate();
         initEditionElements(rootView);
 
         if (mItem != null) { //Subject list item clicked, Subject Review request
@@ -328,6 +299,7 @@ public class SubjectDetailFragment extends Fragment {
         ArrayList<String> answer = new ArrayList<>();
 
         for(int i = MAX_AGE ; i >= MIN_AGE ; i--){
+
             answer.add("" + (currentYear - i));
             Log.v(LOG_TAG,"getYearArrayList: ADD " + (currentYear - i));
         }
@@ -410,9 +382,7 @@ public class SubjectDetailFragment extends Fragment {
         mLastName2CardView.setVisibility(View.GONE);
         mNameEditText.setVisibility(View.GONE);
         mGroupSpinner.setVisibility(View.GONE);
-        mBirthdateDaySpinner.setVisibility(View.GONE);
-        mBirthdateMonthSpinner.setVisibility(View.GONE);
-        mBirthdateYearSpinner.setVisibility(View.GONE);
+        mBirthdateLayout.setVisibility(View.GONE);
         mUniqueIDAutoComplete.setVisibility(View.GONE);
 
         mGroupTextView.setVisibility(View.VISIBLE);
@@ -427,9 +397,7 @@ public class SubjectDetailFragment extends Fragment {
         mLastName2CardView.setVisibility(View.VISIBLE);
         mNameEditText.setVisibility(View.VISIBLE);
         mGroupSpinner.setVisibility(View.VISIBLE);
-        mBirthdateDaySpinner.setVisibility(View.VISIBLE);
-        mBirthdateMonthSpinner.setVisibility(View.VISIBLE);
-        mBirthdateYearSpinner.setVisibility(View.VISIBLE);
+        mBirthdateLayout.setVisibility(View.VISIBLE);
         mUniqueIDAutoComplete.setVisibility(View.VISIBLE);
 
         mNameTextView.setVisibility(View.GONE);
@@ -448,6 +416,10 @@ public class SubjectDetailFragment extends Fragment {
         mNameEditText = rootView.findViewById(R.id.name_edittext);
         mLastName1EditText = rootView.findViewById(R.id.lastname1_edittext);
         mLastName2EditText = rootView.findViewById(R.id.lastname2_edittext);
+        mGroupSpinner = rootView.findViewById(R.id.group_spinner);
+        mBirthdateLayout = rootView.findViewById(R.id.birthdate_spinner_layout);
+
+
 
         mGroupSpinner = rootView.findViewById(R.id.group_spinner);
         initGroupSpinner();
@@ -807,6 +779,8 @@ public class SubjectDetailFragment extends Fragment {
         Constants.SUBJECT_MAP.put(sId, subject);
         // Setup an Adapter to create a list item for each row of pet data in the Cursor.
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+
+
         mSubjectAdapter = new SubjectAdapter(getActivity(), getSubjectsArrayList());
         SubjectListActivity.subjectListView.setAdapter(mSubjectAdapter);
     }

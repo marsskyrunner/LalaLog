@@ -5,86 +5,120 @@
     android:orientation="horizontal">
 
     <android.support.v7.widget.CardView
+
         android:id="@+id/main_cardview"
-        android:layout_marginTop="@dimen/cardview_margin_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/cardview_margin_top">
 
-
-        <RelativeLayout
-            android:paddingLeft="@dimen/fab_margin"
-            android:paddingRight="@dimen/fab_margin"
+        <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <ImageView
-                android:id="@+id/subject_group_imageview"
-                android:src="@drawable/subject_group_1"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="@dimen/fab_margin"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
-
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_toRightOf="@id/subject_group_imageview"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
+                android:background="@drawable/cardview_background"
+                android:id="@+id/record_layout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/subject_name"
-                    android:text="Subject Name"
-                    android:layout_marginBottom="@dimen/cardview_margin_top"
-                    style="@style/PrimaryText"
-                    android:textAppearance="?attr/textAppearanceListItem" />
+                <FrameLayout
+                    android:layout_width="72dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/subject_group_imageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
+                        android:src="@drawable/subject_group_1" />
+
+                </FrameLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/subject_info_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:id="@+id/subject_unique_id_label"
-                        android:text="@string/unique_id_label"
-                        android:alpha="0.5"
-                        android:layout_marginRight="@dimen/list_item_margin_top"
-                        style="@style/SecondaryText"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-
+                    android:background="?android:selectableItemBackground"
+                    android:padding="@dimen/list_item_margin_top"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/subject_unique_id"
-                        android:text="000000"
-                        android:alpha="0.5"
-                        style="@style/SecondaryText"
+                        android:id="@+id/subject_name"
+                        style="@style/PrimaryText"
+                        android:layout_marginBottom="@dimen/list_item_margin_top"
+                        android:maxLines="1"
+                        android:text="Kimi Nikon"
                         android:textAppearance="?attr/textAppearanceListItem" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/subject_unique_id_label"
+                            android:text="@string/unique_id_label"
+                            android:alpha="0.5"
+                            android:layout_marginRight="@dimen/list_item_margin_top"
+                            style="@style/SecondaryText"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+
+                        <TextView
+                            android:id="@+id/subject_unique_id"
+                            android:text="000000"
+                            android:alpha="0.5"
+                            style="@style/SecondaryText"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+
+
+                    </LinearLayout>
+
 
 
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/edit_button"
-                android:src="@drawable/ic_edit_black_24dp"
-                android:layout_centerVertical="true"
-                android:layout_width="@dimen/subject_list_item_edit_button"
-                android:layout_height="@dimen/subject_list_item_edit_button"
-                android:layout_alignParentRight="true"
-                style="?android:attr/borderlessButtonStyle"
-                />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/delete_button_background">
+
+                <ImageButton
+                    android:id="@+id/delete_imagebtn"
+                    style="@style/DeleteButtonStyle"
+                    android:src="@drawable/ic_delete_white_24dp"
+                    android:visibility="visible"
+                    />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    style="@style/DeleteButtonStyle"
+                    android:id="@+id/edit_button"
+                    android:src="@drawable/ic_edit_black_24dp"
+                    android:visibility="visible" />
+
+            </FrameLayout>
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
