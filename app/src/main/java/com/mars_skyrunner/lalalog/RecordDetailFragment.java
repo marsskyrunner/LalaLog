@@ -748,7 +748,8 @@ public class RecordDetailFragment extends Fragment {
 
                 if(detailMode.equals(Constants.NEW_RECORD)){
 
-                    NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+                    //NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(), RecordListActivity.class));
+                    getActivity().finish();
 
                 }else{
 

@@ -57,6 +57,11 @@ import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
  */
 public class SubjectDetailFragment extends Fragment {
 
+
+    //TODO: AL EDITAR UN ALUMNO, NO SE PUEDE GUARDAR, LA   LA PALOMITA NO APARECE
+
+
+
     /*Default birthdate year when edition mode is enabled*/
     private static final CharSequence DEFAULT_BIRTHDATE_YEAR = "2000";
 

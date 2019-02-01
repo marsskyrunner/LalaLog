@@ -87,6 +87,11 @@ public class SubjectListActivity extends AppCompatActivity  implements
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(subjectDeleteReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

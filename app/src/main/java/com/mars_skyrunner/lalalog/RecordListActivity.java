@@ -114,6 +114,8 @@ public class RecordListActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +137,7 @@ public class RecordListActivity extends AppCompatActivity implements
         recordListView = (ListView) findViewById(R.id.record_list);
 
 
-        showLoaderViews();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +198,7 @@ public class RecordListActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
+        showLoaderViews();
 
         switch (i) {
 
@@ -434,4 +437,12 @@ public class RecordListActivity extends AppCompatActivity implements
 
 
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(LOG_TAG,"onResume()");
+        // Kick off the record loader
+        getLoaderManager().initLoader(Constants.SUBJECT_LOADER, null, this);
+    }
 }
