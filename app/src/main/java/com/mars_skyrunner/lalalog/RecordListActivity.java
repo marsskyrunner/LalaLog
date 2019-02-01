@@ -336,6 +336,7 @@ public class RecordListActivity extends AppCompatActivity implements
 
                 // Update {@link RecordCursorAdapter} with this new cursor containing updated record data
                 mRecordCursorAdapter.swapCursor(cursor);
+                recordListView.setAdapter(mRecordCursorAdapter);
 
                 Constants.RECORD_MAP = new HashMap<String, Record>();
 
