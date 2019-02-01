@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentDay;
 import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentMonth;
 import static com.mars_skyrunner.lalalog.SubjectDetailActivity.currentYear;
 import static com.mars_skyrunner.lalalog.SubjectListActivity.getSubjectsArrayList;
@@ -61,7 +62,7 @@ public class SubjectDetailFragment extends Fragment {
 
 
     /*Default birthdate year when edition mode is enabled*/
-    private static final CharSequence DEFAULT_BIRTHDATE_YEAR = "2000";
+    private  CharSequence DEFAULT_BIRTHDATE_YEAR ;
 
     //Log tag
     private String LOG_TAG = SubjectDetailFragment.class.getSimpleName();
@@ -134,6 +135,9 @@ public class SubjectDetailFragment extends Fragment {
 
         //Register broadcast receiver to read save or edit fab button
         getActivity().registerReceiver(saveReceiver, new IntentFilter(Constants.SAVE_SUBJECT));
+
+        updateDate();
+        DEFAULT_BIRTHDATE_YEAR = "" + (currentYear - 18);
 
         final Bundle subjectBundle = getArguments();
         String subjectUriStr = subjectBundle.getString(Constants.ARG_ITEM_ID);
@@ -668,7 +672,6 @@ public class SubjectDetailFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            //TODO: CHECK ANY CHANGES BEFORE DOING ANYTHING ELSE
             String uniqueID = "";
             String name = "";
             String lastname1 = "";
@@ -700,12 +703,21 @@ public class SubjectDetailFragment extends Fragment {
 
             // Check if this is supposed to be a new pet
             // and check if all the fields in the editor are blank
-            if (TextUtils.isEmpty(uniqueID) && TextUtils.isEmpty(name) &&
-                    TextUtils.isEmpty(lastname1) && TextUtils.isEmpty(lastname2) &&
-                    groupID.equals("0") && birthdate == "1 / Enero / 2000") {
+
+            if (TextUtils.isEmpty(uniqueID)
+                    && TextUtils.isEmpty(name)
+                    && TextUtils.isEmpty(lastname1)
+                    && TextUtils.isEmpty(lastname2)
+                    && groupID.equals("0")
+                    && birthdate.equals("1 / Enero / " + (currentYear - 18))) {
                 // Since no fields were modified, we can return early without creating a new pet.
                 // No need to create ContentValues and no need to do any ContentProvider operations.
+                Log.v(LOG_TAG,"saveReceiver :no fields were modified");
+                Toast.makeText(getActivity(),getString(R.string.no_changes_made),Toast.LENGTH_SHORT).show();
+
+                getActivity().finish();
                 return;
+
             }
 
 
@@ -860,4 +872,20 @@ public class SubjectDetailFragment extends Fragment {
 
 
 
+    private void updateDate() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String day = (String) DateFormat.format("dd", currentTime);
+        String monthNumber = (String) DateFormat.format("MM", currentTime);
+        String year = (String) DateFormat.format("yyyy", currentTime);
+
+        currentYear = Integer.parseInt(year.trim());
+        currentMonth = Integer.parseInt(monthNumber.trim());
+        currentDay = Integer.parseInt(day.trim());
+
+        Log.v(LOG_TAG, "currenYear: " + currentYear);
+        Log.v(LOG_TAG, "currentMonth: " + currentMonth);
+        Log.v(LOG_TAG, "currentDay: " + currentDay);
+
+    }
 }

@@ -355,4 +355,6 @@ public class SubjectDetailActivity extends AppCompatActivity {
         Log.v(LOG_TAG,"alertDialog.show()");
     }
 
+
+
 }
