@@ -67,7 +67,7 @@ public class SubjectListActivity extends AppCompatActivity  implements
         switch (item.getItemId()) {
 
             case R.id.search_icon:
-                onSearchRequested();//TODO: FIX FOUND SUBJECT LAYOUT, BOTH "DELETE" AND "EDIT" APPEAR AT THE SAME TIME
+                onSearchRequested();
                 break;
 
             case R.id.add_subject_icon:
