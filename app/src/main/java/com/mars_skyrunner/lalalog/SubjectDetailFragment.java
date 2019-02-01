@@ -58,8 +58,6 @@ import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
 public class SubjectDetailFragment extends Fragment {
 
 
-    //TODO: AL EDITAR UN ALUMNO, NO SE PUEDE GUARDAR, LA   LA PALOMITA NO APARECE
-
 
 
     /*Default birthdate year when edition mode is enabled*/
@@ -123,6 +121,7 @@ public class SubjectDetailFragment extends Fragment {
     /*Default birthdate year when edition mode is enabled*/
     private final int MIN_AGE = 11;
     private final int MAX_AGE = 18;
+    String detailMode;
 
     public SubjectDetailFragment() {
     }
@@ -138,31 +137,34 @@ public class SubjectDetailFragment extends Fragment {
 
         final Bundle subjectBundle = getArguments();
         String subjectUriStr = subjectBundle.getString(Constants.ARG_ITEM_ID);
+        detailMode = subjectBundle.getString(Constants.SUBJECT_DETAIL_MODE);
+        Log.v(LOG_TAG,"detailMode: " + detailMode);
 
-        Log.w(LOG_TAG,"subjectUriStr: " + subjectUriStr);
+        switch (detailMode){
 
-        if(!subjectUriStr.equals("null")){//This is a Subject Review request
+            case "com.mars_skyrunner.lalalog.NEW_SUBJECT":
+                //break;
+            case "com.mars_skyrunner.lalalog.EDIT_SUBJECT":
+                subjectToEditUri = subjectBundle.getString(Constants.SUBJECT_URI_STRING);
+                mItem = null;
+                break;
 
-            Log.w(LOG_TAG,"subjectUriStr not null ");
+            case "com.mars_skyrunner.lalalog.REVIEW_SUBJECT":
 
-            subjectUri = Uri.parse(subjectUriStr);
-            String subjectIDStr = String.valueOf(ContentUris.parseId(subjectUri));
+                subjectUri = Uri.parse(subjectUriStr);
+                String subjectIDStr = String.valueOf(ContentUris.parseId(subjectUri));
+                Log.v(LOG_TAG,"subjectUriStr: " + subjectUriStr);
 
-            Log.w(LOG_TAG,"subjectIDStr: " + subjectIDStr);
+                Log.w(LOG_TAG,"subjectIDStr: " + subjectIDStr);
 
-            mItem = Constants.SUBJECT_MAP.get(subjectIDStr);
+                mItem = Constants.SUBJECT_MAP.get(subjectIDStr);
 
-            Log.w(LOG_TAG,"mItem.getSubjectName(): " + mItem.getSubjectName());
+                Log.w(LOG_TAG,"mItem.getSubjectName(): " + mItem.getSubjectName());
 
-            String labelText = mItem.getSubjectName() + " " + mItem.getSubjectLastName1();
-            getActivity().setTitle(labelText);
+                String labelText = mItem.getSubjectName() + " " + mItem.getSubjectLastName1();
+                getActivity().setTitle(labelText);
 
-        }else{//This is a Subject Add/Edit Request
-
-            Log.v(LOG_TAG,"subjectUriStr null ");
-
-            subjectToEditUri = subjectBundle.getString(Constants.SUBJECT_URI_STRING);
-            mItem = null;
+                break;
 
         }
 
@@ -206,30 +208,38 @@ public class SubjectDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.subject_detail, container, false);
         initEditionElements(rootView);
 
-        if (mItem != null) { //Subject list item clicked, Subject Review request
+        switch (detailMode){
 
+            case "com.mars_skyrunner.lalalog.NEW_SUBJECT":
 
-            Log.v(LOG_TAG,"Subject list item clicked, Subject Review request");
-            hideEditionMode();
+                Log.v(LOG_TAG,"NEW_SUBJECT");
 
-            ((TextView) rootView.findViewById(R.id.subject_group)).setText(mItem.getGroupDisplay());
-            ((TextView) rootView.findViewById(R.id.subject_birthdate)).setText(mItem.getSubjectBirthdate());
-            ((TextView) rootView.findViewById(R.id.subject_unique_id)).setText("" + mItem.getSubjectUniqueID());
+                showEditionMode();
+                Log.v(LOG_TAG,"subjectToEditUri: " + subjectToEditUri);
 
-        } else { //Subject Review/Edit request
+                break;
 
-            Log.v(LOG_TAG,"Subject Review/Edit request");
+            case "com.mars_skyrunner.lalalog.EDIT_SUBJECT":
 
-            showEditionMode();
+                Log.v(LOG_TAG,"EDIT_SUBJECT");
 
-            Log.v(LOG_TAG,"subjectToEditUri: " + subjectToEditUri);
+                showEditionMode();
+                Log.v(LOG_TAG,"subjectToEditUri: " + subjectToEditUri);
 
-            if(!subjectToEditUri.equals("null")){ //This is a Subject Edition request
-
-                Log.v(LOG_TAG,"This is a Subject Edition request");
                 fillEditTexts();
 
-            }
+                break;
+            case "com.mars_skyrunner.lalalog.REVIEW_SUBJECT":
+
+                Log.v(LOG_TAG,"REVIEW_SUBJECT");
+                hideEditionMode();
+
+                ((TextView) rootView.findViewById(R.id.subject_group)).setText(mItem.getGroupDisplay());
+                ((TextView) rootView.findViewById(R.id.subject_birthdate)).setText(mItem.getSubjectBirthdate());
+                ((TextView) rootView.findViewById(R.id.subject_unique_id)).setText("" + mItem.getSubjectUniqueID());
+
+                break;
+
         }
 
         return rootView;
@@ -658,6 +668,7 @@ public class SubjectDetailFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            //TODO: CHECK ANY CHANGES BEFORE DOING ANYTHING ELSE
             String uniqueID = "";
             String name = "";
             String lastname1 = "";

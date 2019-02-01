@@ -37,6 +37,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
     //Todays Date variables
     public static int currentYear,currentMonth,currentDay;
     String subjectUri;
+    String detailMode;
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -45,13 +46,19 @@ public class SubjectDetailActivity extends AppCompatActivity {
         addSubjectMenuItem = menu.findItem(R.id.add_subject_icon);
         deleteSubjectMenuItem = menu.findItem(R.id.delete_subject);
 
-        if(subjectUri.equals("null")){
-            addSubjectMenuItem.setVisible(true);
-            deleteSubjectMenuItem.setVisible(false);
+        switch (detailMode){
 
-        }else{
-            addSubjectMenuItem.setVisible(false);
-            deleteSubjectMenuItem.setVisible(true);
+            case "com.mars_skyrunner.lalalog.NEW_SUBJECT":
+            case "com.mars_skyrunner.lalalog.EDIT_SUBJECT":
+                addSubjectMenuItem.setVisible(true);
+                deleteSubjectMenuItem.setVisible(false);
+                break;
+
+            case "com.mars_skyrunner.lalalog.REVIEW_SUBJECT":
+                addSubjectMenuItem.setVisible(false);
+                deleteSubjectMenuItem.setVisible(true);
+                break;
+
         }
 
         return true;
@@ -119,7 +126,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
         subjectUri = intent.getStringExtra(Constants.SUBJECT_URI_STRING);
 
 
-        String detailMode  = getIntent().getStringExtra(Constants.SUBJECT_DETAIL_MODE);
+        detailMode  = getIntent().getStringExtra(Constants.SUBJECT_DETAIL_MODE);
         Log.v(LOG_TAG,"detailMode: " + detailMode);
 
         switch (detailMode){
@@ -139,6 +146,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
         Log.v(LOG_TAG,"subjectUri: " + subjectUri);
 
         subjectBundle.putString(Constants.SUBJECT_URI_STRING,subjectUri);
+        subjectBundle.putString(Constants.SUBJECT_DETAIL_MODE,detailMode);
 
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.

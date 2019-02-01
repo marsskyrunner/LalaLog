@@ -173,7 +173,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
                 Log.v(LOG_TAG, "mEditButton.setOnClickListener");
 
                 Bundle arguments = new Bundle();
-                arguments.putString(Constants.ARG_ITEM_ID, "null");//This sets SubjectDetailActivitys EditionMode
+                arguments.putString(Constants.ARG_ITEM_ID, currentSubject.getSubjectID());//This sets SubjectDetailActivitys EditionMode
 
                 Intent intent = new Intent(mActivity,SubjectDetailActivity.class);
                 intent.putExtra(Constants.SUBJECT_BUNDLE,arguments);
