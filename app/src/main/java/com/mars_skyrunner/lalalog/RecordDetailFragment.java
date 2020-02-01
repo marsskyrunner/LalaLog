@@ -487,6 +487,8 @@ public class RecordDetailFragment extends Fragment {
         mLastName2EditText.setText("");
         mGroupSpinner.setSelection(0);
 
+
+
         int defaultBirthdate = currentYear - MAX_AGE;
 
         initBirthdateDaySpinner(0,defaultBirthdate);

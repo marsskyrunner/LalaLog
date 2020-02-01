@@ -74,6 +74,7 @@
 
             <EditText
                 android:id="@+id/name_edittext"
+                android:inputType="textFilter"
                 android:visibility="visible"
                 android:maxLines="1"
                 android:singleLine="true"
