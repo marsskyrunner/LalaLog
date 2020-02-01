@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,8 +58,6 @@ import static com.mars_skyrunner.lalalog.SubjectListActivity.mSubjectAdapter;
  * on handsets.
  */
 public class SubjectDetailFragment extends Fragment {
-
-
 
 
     /*Default birthdate year when edition mode is enabled*/

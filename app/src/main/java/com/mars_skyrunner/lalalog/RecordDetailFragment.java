@@ -562,7 +562,7 @@ public class RecordDetailFragment extends Fragment {
 
         while(it.hasNext()) {
             Subject subject = (Subject) it.next();
-            String subjectID = subject.getSubjectID();
+            String subjectID = String.valueOf(subject.getSubjectUniqueID());
 
             if(uniqueIdQuery.equals(subjectID)){
                 Log.v(LOG_TAG,"uniqueIdExists: "  + uniqueIdQuery + " = " + subjectID );
@@ -661,7 +661,7 @@ public class RecordDetailFragment extends Fragment {
             String birthdateYear  = "";
             String birthdate  = "";
             String subjectID  = "";
-            String  recordReference = "";
+            String recordReference = "";
             String recordText = mRecordEditText.getText().toString();
 
             if(subjectSelected == null){//New Record has been saved
@@ -1016,7 +1016,7 @@ public class RecordDetailFragment extends Fragment {
 
         while(it.hasNext()) {
             Record obj = (Record) it.next();
-            String subjectID = obj.getSubject().getSubjectID();
+            String subjectID =  String.valueOf(obj.getSubject().getSubjectUniqueID());
             Log.v(LOG_TAG,"getAutoCompleteOptions: subjectID: " + subjectID);
             autoCompleteOptions.add(subjectID);
         }
