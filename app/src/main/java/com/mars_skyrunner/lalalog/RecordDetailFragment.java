@@ -452,6 +452,7 @@ public class RecordDetailFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 Log.v(LOG_TAG, "addTextChangedListener: onTextChanged: " + charSequence);
+                Log.v(LOG_TAG, "COMMIT Test " + charSequence);
 
                 subjectSelected = uniqueIdExists(charSequence);
 
